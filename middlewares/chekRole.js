@@ -1,37 +1,30 @@
-// const { Model } = require('sequelize');
-// const Models = require ('../models/index.js')
-// const jwt = require ("jsonwebtoken")
-const Models = require('../models/index.js')
-const Users = Models.User
-const Roles = Models.Role
+const Models = require("../models/index.js");
+const Users = Models.User;
 
-
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 
 async function IsAdmin(req, res, next) {
-    try {
-        const user = jwt.verify(req.cookies.refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, decoded) => {
-            if(error) return res.sendStatus(403);
-            return decoded
-        })
-        
-        const checkRole = await Users.findOne({
-            where: {
-                id: user.id,
-            },
-            include: {
-                model: Roles,
-            },
-        })
+  try {
+     const authHeader = req.headers["authorization"];
+     const token = authHeader && authHeader.split(" ")[1];
 
-        if (checkRole.role.name !== 'Admin') {
-            return res.status(403).json({ msg: `Your role is not allowed!` })
-        } else {
-            next()
-        }
-    } catch (error) {
-        return res.status(500).json({ msg: `roleChecker:\n ${error.message}` })
+    const user = jwt.verify(
+      token,
+      process.env.REFRESH_TOKEN_SECRET,
+      (error, decoded) => {
+        if (error) return res.sendStatus(403);
+        return decoded;
+      }
+    );
+
+    if (user.role !== "admin") {
+      return res.status(403).json({ msg: `Your role is not allowed!` });
+    } else {
+      next();
     }
+  } catch (error) {
+    return res.status(500).json({ msg: `roleChecker:\n ${error.message}` });
+  }
 }
 
-module.exports = { IsAdmin }
+module.exports = { IsAdmin };
