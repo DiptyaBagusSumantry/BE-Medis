@@ -6,8 +6,6 @@ const router = require("./routes/index.js");
 const Models = require("./models/index");
 const cookieParser = require("cookie-parser");
 const { createAdmin } = require("./seeders/AdminSeeders.js");
-const { insertDataDesa } = require("./seeders/NamaDesaKecamatan.js");
-const { createKejahatan } = require("./seeders/KejahatanSeeders.js");
 const path = require("path");
 
 //Insialisasi ke Database
@@ -17,7 +15,7 @@ Models.sequelizeInstance
     try {
       const user = await Models.User.findAll();
       if (user.length == 0) {
-        createAdmin(), insertDataDesa(0), createKejahatan();
+        createAdmin()
       }
     } catch (error) {
       console.log(error);
