@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
 
-const historyPateint = (sequelizeInstance) => {
+const historyPatient = (sequelizeInstance) => {
   return sequelizeInstance.define(
-    "history_pateints",
+    "history_patients",
     {
       id: {
         type: Sequelize.UUID,
@@ -25,7 +25,7 @@ const historyPateint = (sequelizeInstance) => {
           },
         },
       },
-      diagonosis: {
+      diagnosis: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
@@ -81,6 +81,20 @@ const historyPateint = (sequelizeInstance) => {
           },
         },
       },
+      answer_tooth: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Answer Tooth Can't be Null!",
+          },
+          notEmpty: {
+            args: true,
+            msg: "Answer Tooth Can't be Empty!",
+          },
+        },
+      },
     },
     {
       freezeTableName: true,
@@ -90,4 +104,4 @@ const historyPateint = (sequelizeInstance) => {
   );
 };
 
-module.exports = historyPateint;
+module.exports = historyPatient;

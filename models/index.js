@@ -2,7 +2,7 @@ const dbConfig = require("../config/config.js");
 const Sequelize = require("sequelize");
 const User = require("./UserModels.js");
 const Patient = require("./PatientModel.js");
-const Historypatient = require("./HistoryPatientModel.js");
+const HistoryPatient = require("./HistoryPatientModel.js");
 const Transaction = require("./TransactionModel.js");
 const Medicine = require("./MedicineModel.js");
 
@@ -27,12 +27,12 @@ const db = {};
 db.sequelizeInstance = sequelizeInstance;
 db.User = User(sequelizeInstance);
 db.Patient = Patient(sequelizeInstance);
-db.HistoryPateint = Historypatient(sequelizeInstance);
+db.HistoryPatient = HistoryPatient(sequelizeInstance);
 db.Transaction = Transaction(sequelizeInstance);
 db.Medicine = Medicine(sequelizeInstance);
 
 // History Patient - Patient
-db.Patient.hasMany(db.HistoryPateint, {
+db.Patient.hasMany(db.HistoryPatient, {
   foreignKey: {
     name: "patientId",
     type: Sequelize.UUID,
@@ -40,7 +40,7 @@ db.Patient.hasMany(db.HistoryPateint, {
   },
 });
 
-db.HistoryPateint.belongsTo(db.Patient, {
+db.HistoryPatient.belongsTo(db.Patient, {
   targetKey: "id",
 });
 // Transaction - Patient
@@ -56,7 +56,7 @@ db.Transaction.belongsTo(db.Patient, {
   targetKey: "id",
 });
 // Transaction - HistoryPatient
-db.HistoryPateint.hasMany(db.Transaction, {
+db.HistoryPatient.hasMany(db.Transaction, {
   foreignKey: {
     name: "historyPatientId",
     type: Sequelize.UUID,
@@ -64,7 +64,7 @@ db.HistoryPateint.hasMany(db.Transaction, {
   },
 });
 
-db.Transaction.belongsTo(db.HistoryPateint, {
+db.Transaction.belongsTo(db.HistoryPatient, {
   targetKey: "id",
 });
 

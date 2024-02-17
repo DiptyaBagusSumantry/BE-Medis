@@ -14,6 +14,10 @@ const Patient = (sequelizeInstance) => {
       number_regristation: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: {
+          args: "number_regristation",
+          msg: "Number Regristation Already Registered!",
+        },
         validate: {
           notNull: {
             args: true,
@@ -146,20 +150,6 @@ const Patient = (sequelizeInstance) => {
           notEmpty: {
             args: true,
             msg: "History Illness Can't be Empty!",
-          },
-        },
-      },
-      answer_tooth: {
-        type: Sequelize.TEXT,
-        allowNull: false,
-        validate: {
-          notNull: {
-            args: true,
-            msg: "Answer Tooth Can't be Null!",
-          },
-          notEmpty: {
-            args: true,
-            msg: "Answer Tooth Can't be Empty!",
           },
         },
       },

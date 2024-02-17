@@ -39,6 +39,10 @@ const Transaction = (sequelizeInstance) => {
           },
         },
       },
+      status: {
+        type: Sequelize.STRING,
+        defaultValue: false
+      },
       purchased: {
         type: Sequelize.STRING,
         allowNull: false,

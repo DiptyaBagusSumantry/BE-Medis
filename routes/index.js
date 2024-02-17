@@ -2,6 +2,8 @@ const router = require("express").Router();
 const verifyToken = require("../middlewares/VerifyToken");
 const AuthController = require("../controllers/AuthController.js");
 const MedicineController = require("../controllers/MedicineController.js");
+const PatientController = require("../controllers/PatientController.js");
+const RekamMedisController = require("../controllers/RekamMedisContoller.js");
 
 const { IsAdmin } = require("../middlewares/chekRole.js");
 
@@ -9,6 +11,7 @@ router.post("/login", AuthController.Login);
 router.post("/logout", verifyToken, AuthController.Logout);
 // router.get('/count-dashboard', verifyToken, IsAdmin, DashboardController.countDashboard )
 
+//medicine
 router.post(
   "/medicine",
   verifyToken,
@@ -27,6 +30,26 @@ router.delete(
   verifyToken,
   IsAdmin,
   MedicineController.deleteMedicine
+);
+
+//patient
+router.post("/patient", verifyToken, IsAdmin, PatientController.createPatient);
+router.get("/patient", verifyToken, IsAdmin, PatientController.getPatient);
+
+//Rekam Medis
+router.post(
+  "/rekam-medis",
+  verifyToken,
+  IsAdmin,
+  RekamMedisController.createRekamMedis
+);
+
+//Invoice
+router.get(
+  "/invoice",
+  verifyToken,
+  IsAdmin,
+  RekamMedisController.getInvoice
 );
 
 module.exports = router;

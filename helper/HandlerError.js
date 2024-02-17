@@ -1,4 +1,5 @@
 function handlerError(res, error) {
+  console.log(error)
   if (error.errors) {
     return res.status(500).json({
       code: 500,

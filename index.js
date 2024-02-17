@@ -8,30 +8,28 @@ const cookieParser = require("cookie-parser");
 const { createAdmin } = require("./seeders/AdminSeeders.js");
 const path = require("path");
 
-//Insialisasi ke Database
-Models.sequelizeInstance
-  .sync({ force: false, alter: true })
-  .then(async () => {
-    try {
-      const user = await Models.User.findAll();
-      if (user.length == 0) {
-        createAdmin()
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      console.log("Synced db.");
-    }
-  })
-  .catch((err) => {
-    console.log("Failed to sync db: " + err.message);
-  });
-
+// //Insialisasi ke Database
+// Models.sequelizeInstance
+//   .sync({ force: false, alter: true })
+//   .then(async () => {
+//     try {
+//       const user = await Models.User.findAll();
+//       if (user.length == 0) {
+//         createAdmin()
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     } finally {
+//       console.log("Synced db.");
+//     }
+//   })
+//   .catch((err) => {
+//     console.log("Failed to sync db: " + err.message);
+//   });
 
 app.get("/", (req, res) => {
   res.send("API Running");
 });
-
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -44,7 +42,6 @@ app.use(
   "/assets/images/artikel",
   express.static(path.join(__dirname, "assets/images/artikel"))
 );
-
 
 app.use(
   cors({
