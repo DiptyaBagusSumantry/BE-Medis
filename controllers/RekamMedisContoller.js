@@ -13,7 +13,19 @@ const {
 class RekamMedisController {
   static async createRekamMedis(req, res) {
     try {
-      const { date, name, service, odontogram } = req.body;
+      const {
+        date,
+        name,
+        service,
+        odontogram,
+        place_birth,
+        date_birth,
+        gender,
+        address,
+        work,
+        phone,
+        history_illness,
+      } = req.body;
 
       //number RM
       let countPatient = (await Patient.count()) + 1;
@@ -32,13 +44,13 @@ class RekamMedisController {
       const createPatient = await Patient.create({
         number_regristation,
         fullname: name,
-        place_birth: "not-found",
-        date_birth: date,
-        gender: "not-found",
-        address: "not-found",
-        work: "not-found",
-        phone: `${new Date().getTime()}`,
-        history_illness: "not-found",
+        place_birth: place_birth || "not-found",
+        date_birth: date_birth || date,
+        gender: gender || "not-found",
+        address: address || "not-found",
+        work: work || "not-found",
+        phone: phone || `${new Date().getTime()}`,
+        history_illness: history_illness || "not-found",
       });
 
       const createRM = await RekamMedis.create({
@@ -51,7 +63,7 @@ class RekamMedisController {
         patientId: createPatient.id,
       });
 
-      const createTransaksi = await Transaction.create({
+      await Transaction.create({
         invoice: `${new Date().getTime()}`,
         purchased: JSON.stringify(service),
         total_payment: total_payment.toString(),
@@ -59,43 +71,83 @@ class RekamMedisController {
         historyPatientId: createRM.id,
       });
 
-      return res.send(createTransaksi);
+      handleCreate(res);
     } catch (error) {
       handlerError(res, error);
     }
   }
-  static async getInvoice(req, res) {
+  static async getRM(req, res) {
     try {
-      const invoiceId = req.query.invoiceId;
-      const whereClause = {
-        include: { model: Patient },
-      };
-      if (invoiceId) {
-        whereClause.where = { id: invoiceId };
-      }
-
-      const getInvoice = await Transaction.findAll(whereClause);
-
-      const result = getInvoice.map((data) => {
-        let { id, invoice, total_payment, status, purchased, createdAt } =
-          data.dataValues;
-        const { fullname } = data.dataValues.patient;
-        createdAt = new Date(createdAt).toLocaleDateString("id-ID", {
-          day: "2-digit",
-          month: "long",
-          year: "numeric",
+      const get = await RekamMedis.findAll({
+        include: [{ model: Patient }, { model: Transaction }],
+      });
+      const reuslt = get.map((data) => {
+        console.log(data.dataValues.transactions[0].purchased);
+        const { id, date } = data.dataValues;
+        const { number_regristation, fullname, phone, gender } =
+          data.dataValues.patient;
+        const { purchased } = data.dataValues.transactions[0];
+        let hasil = "";
+        const proses = JSON.parse(purchased);
+        proses.forEach((data) => {
+          hasil += data.name + ", ";
         });
         return {
           id,
-          invoice,
-          total_payment,
-          status,
-          createdAt,
+          number_regristation,
+          date,
           fullname,
-          purchased: JSON.parse(purchased),
+          gender,
+          phone,
+          hasil,
         };
       });
-      res.send(result);
+      handleGet(res, reuslt);
+    } catch (error) {
+      handlerError(res, error);
+    }
+  }
+  static async getDetailRM(req, res) {
+    try {
+      const get = await RekamMedis.findOne({
+        where: { id: req.params.id },
+        include: [{ model: Patient }, { model: Transaction }],
+      });
+      const { id, diagnosis, therapy, description } = get.dataValues;
+      const {
+        number_regristation,
+        fullname,
+        place_birth,
+        date_birth,
+        gender,
+        phone,
+        address,
+        work,
+        history_illness,
+      } = get.dataValues.patient;
+      const { purchased } = get.dataValues.transactions[0];
+      let hasil = "";
+      const proses = JSON.parse(purchased);
+      proses.forEach((data) => {
+        hasil += data.name + ", ";
+      });
+      const data = {
+        id,
+        number_regristation,
+        fullname,
+        place_birth,
+        date_birth,
+        gender,
+        phone,
+        address,
+        work,
+        history_illness,
+        diagnosis,
+        therapy,
+        description,
+        hasil,
+      };
+      handleGet(res, data);
     } catch (error) {
       handlerError(res, error);
     }

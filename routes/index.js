@@ -4,6 +4,7 @@ const AuthController = require("../controllers/AuthController.js");
 const MedicineController = require("../controllers/MedicineController.js");
 const PatientController = require("../controllers/PatientController.js");
 const RekamMedisController = require("../controllers/RekamMedisContoller.js");
+const TransactionController = require("../controllers/TransactionController.js");
 
 const { IsAdmin } = require("../middlewares/chekRole.js");
 
@@ -43,13 +44,27 @@ router.post(
   IsAdmin,
   RekamMedisController.createRekamMedis
 );
+//Rekam Medis
+router.get(
+  "/rekam-medis",
+  verifyToken,
+  IsAdmin,
+  RekamMedisController.getRM
+);
+//Rekam Medis
+router.get(
+  "/rekam-medis/:id",
+  verifyToken,
+  IsAdmin,
+  RekamMedisController.getDetailRM
+);
 
 //Invoice
 router.get(
   "/invoice",
   verifyToken,
   IsAdmin,
-  RekamMedisController.getInvoice
+  TransactionController.getInvoice
 );
 
 module.exports = router;

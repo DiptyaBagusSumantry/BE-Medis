@@ -19,7 +19,7 @@ class PatientController {
         phone,
         history_illness,
       } = req.body;
-      let countPatient = await Patient.count()+1;
+      let countPatient = (await Patient.count()) + 1;
       const number_regristation = String(countPatient).padStart(6, "0");
       await Patient.create({
         number_regristation,
@@ -68,7 +68,7 @@ class PatientController {
         handleGet(res, results);
       });
     } catch (error) {
-      handlerError;
+      handlerError(res, error);
     }
   }
 }
