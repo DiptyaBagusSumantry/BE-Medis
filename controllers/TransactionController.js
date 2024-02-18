@@ -51,14 +51,14 @@ class TransactionController {
   static async updateInvoice(req, res) {
     try {
       const update = await Transaction.update(
-        {status: req.body.status},
+        { status: req.body.status },
         {
           where: {
             id: req.params.id,
           },
         }
       );
-      handleUpdate(res, update)
+      handleUpdate(res, update);
     } catch (error) {
       handlerError(res, error);
     }
