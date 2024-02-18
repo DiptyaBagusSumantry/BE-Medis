@@ -83,17 +83,17 @@ const historyPatient = (sequelizeInstance) => {
       },
       answer_tooth: {
         type: Sequelize.TEXT,
-        allowNull: false,
-        validate: {
-          notNull: {
-            args: true,
-            msg: "Answer Tooth Can't be Null!",
-          },
-          notEmpty: {
-            args: true,
-            msg: "Answer Tooth Can't be Empty!",
-          },
-        },
+        // allowNull: false,
+        // validate: {
+        //   notNull: {
+        //     args: true,
+        //     msg: "Answer Tooth Can't be Null!",
+        //   },
+        //   notEmpty: {
+        //     args: true,
+        //     msg: "Answer Tooth Can't be Empty!",
+        //   },
+        // },
       },
     },
     {
