@@ -9,6 +9,7 @@ const {
   handleUpdate,
   handleDelete,
 } = require("../helper/HandlerError.js");
+const { where } = require("sequelize");
 
 class TransactionController {
   static async getInvoice(req, res) {
@@ -43,6 +44,21 @@ class TransactionController {
         };
       });
       handleGet(res, result);
+    } catch (error) {
+      handlerError(res, error);
+    }
+  }
+  static async updateInvoice(req, res) {
+    try {
+      const update = await Transaction.update(
+        {status: req.body.status},
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
+      );
+      handleUpdate(res, update)
     } catch (error) {
       handlerError(res, error);
     }

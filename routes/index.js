@@ -66,5 +66,12 @@ router.get(
   IsAdmin,
   TransactionController.getInvoice
 );
+//Invoice
+router.put(
+  "/invoice/:id",
+  verifyToken,
+  IsAdmin,
+  TransactionController.updateInvoice
+);
 
 module.exports = router;
