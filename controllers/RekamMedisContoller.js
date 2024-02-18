@@ -25,6 +25,11 @@ class RekamMedisController {
         work,
         phone,
         history_illness,
+        diagnosis,
+        therapy,
+        status,
+        description,
+        answer_tooth,
       } = req.body;
 
       //number RM
@@ -55,10 +60,10 @@ class RekamMedisController {
 
       const createRM = await RekamMedis.create({
         date,
-        diagnosis: "not-found",
-        therapy: "not-found",
-        status: "not-found",
-        description: "not-found",
+        diagnosis: diagnosis || "not-found",
+        therapy: therapy ||"not-found",
+        status: status || "not-found",
+        description: description || "not-found",
         answer_tooth: JSON.stringify(odontogram),
         patientId: createPatient.id,
       });
@@ -113,7 +118,7 @@ class RekamMedisController {
         where: { id: req.params.id },
         include: [{ model: Patient }, { model: Transaction }],
       });
-      const { id, diagnosis, therapy, description } = get.dataValues;
+      const { id, diagnosis, therapy, description, date } = get.dataValues;
       const {
         number_regristation,
         fullname,
@@ -126,13 +131,22 @@ class RekamMedisController {
         history_illness,
       } = get.dataValues.patient;
       const { purchased } = get.dataValues.transactions[0];
+
       let hasil = "";
       const proses = JSON.parse(purchased);
       proses.forEach((data) => {
         hasil += data.name + ", ";
       });
+
+      const tgl = new Date(date).toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      });
+
       const data = {
         id,
+        date: tgl,
         number_regristation,
         fullname,
         place_birth,
