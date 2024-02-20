@@ -41,35 +41,35 @@ class AuthController {
     }
   }
 
-  // static async Fetch(req, res) {
-  //   try {
-  //     const authHeader = req.headers["authorization"];
-  //     const token = authHeader && authHeader.split(" ")[1];
+  static async Fetch(req, res) {
+    try {
+      const authHeader = req.headers["authorization"];
+      const token = authHeader && authHeader.split(" ")[1];
 
-  //     const user = jwt.verify(
-  //       token,
-  //       process.env.REFRESH_TOKEN_SECRET,
-  //       (error, decoded) => {
-  //         if (error) return res.sendStatus(403);
-  //         return decoded;
-  //       }
-  //     );
-  //     const fetch = await User.findOne({
-  //       where: { id: user.id },
-  //       attributes: ["username"],
-  //     }).then((data) => {
-  //       return {
-  //         username: data.username,
-  //         role: user.role,
-  //       };
-  //     });
-  //     return res.status(200).json(fetch);
-  //   } catch (error) {
-  //     res.status(500).json({
-  //       message: error.message,
-  //     });
-  //   }
-  // }
+      const user = jwt.verify(
+        token,
+        process.env.REFRESH_TOKEN_SECRET,
+        (error, decoded) => {
+          if (error) return res.sendStatus(403);
+          return decoded;
+        }
+      );
+      const fetch = await User.findOne({
+        where: { id: user.id },
+        attributes: ["username"],
+      }).then((data) => {
+        return {
+          username: data.username,
+          role: user.role,
+        };
+      });
+      return res.status(200).json(fetch);
+    } catch (error) {
+      res.status(500).json({
+        message: error.message,
+      });
+    }
+  }
 
   static async Logout(req, res) {
     try {
