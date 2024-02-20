@@ -11,7 +11,6 @@ const { IsAdmin } = require("../middlewares/chekRole.js");
 router.post("/login", AuthController.Login);
 router.post("/logout", verifyToken, AuthController.Logout);
 router.get("/fetch", verifyToken, AuthController.Fetch);
-// router.get('/count-dashboard', verifyToken, IsAdmin, DashboardController.countDashboard )
 
 //medicine
 router.post(
@@ -21,6 +20,7 @@ router.post(
   MedicineController.createMedicine
 );
 router.get("/medicine", verifyToken, IsAdmin, MedicineController.getMedicine);
+router.get("/medicine/:id", verifyToken, IsAdmin, MedicineController.getDetailMedicine);
 router.put(
   "/medicine/:id",
   verifyToken,
@@ -37,6 +37,9 @@ router.delete(
 //patient
 router.post("/patient", verifyToken, IsAdmin, PatientController.createPatient);
 router.get("/patient", verifyToken, IsAdmin, PatientController.getPatient);
+router.get("/patient/:id", verifyToken, IsAdmin, PatientController.detailPatient);
+router.put("/patient/:id", verifyToken, IsAdmin, PatientController.updatePatient);
+router.delete("/patient/:id", verifyToken, IsAdmin, PatientController.deletePatient);
 
 //Rekam Medis
 router.post(
@@ -45,14 +48,7 @@ router.post(
   IsAdmin,
   RekamMedisController.createRekamMedis
 );
-//Rekam Medis
-router.get(
-  "/rekam-medis",
-  verifyToken,
-  IsAdmin,
-  RekamMedisController.getRM
-);
-//Rekam Medis
+router.get("/rekam-medis", verifyToken, IsAdmin, RekamMedisController.getRM);
 router.get(
   "/rekam-medis/:id",
   verifyToken,
@@ -61,13 +57,7 @@ router.get(
 );
 
 //Invoice
-router.get(
-  "/invoice",
-  verifyToken,
-  IsAdmin,
-  TransactionController.getInvoice
-);
-//Invoice
+router.get("/invoice", verifyToken, IsAdmin, TransactionController.getInvoice);
 router.put(
   "/invoice/:id",
   verifyToken,

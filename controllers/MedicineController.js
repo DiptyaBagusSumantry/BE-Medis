@@ -30,6 +30,18 @@ class MedicineController {
       handlerError(res, error);
     }
   }
+  static async getDetailMedicine(req, res) {
+    try {
+      const get = await Medicine.findOne({
+        where:{
+          id: req.params.id
+        }
+      });
+      handleGet(res, get);
+    } catch (error) {
+      handlerError(res, error);
+    }
+  }
   static async updatetMedicine(req, res) {
     try {
       const { code, name, price } = req.body;

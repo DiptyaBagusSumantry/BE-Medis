@@ -1,5 +1,4 @@
 function handlerError(res, error) {
-  console.log(error)
   if (error.errors) {
     return res.status(500).json({
       code: 500,
@@ -12,49 +11,55 @@ function handlerError(res, error) {
     });
   }
 }
-function handleCreate(res){
-    res.status(201).json({ 
-        code: 201,
-        message: "Success Create Data" 
-    });
+function handleCreate(res) {
+  res.status(201).json({
+    code: 201,
+    message: "Success Create Data",
+  });
 }
-function handleGet(res, data){
+function handleGet(res, data) {
+  res.status(200).json({
+    code: 200,
+    message: "Success Get Data",
+    data: data,
+  });
+}
+function handleUpdate(res, data) {
+  const status = data[0];
+  if (status == 1) {
     res.status(200).json({
       code: 200,
-      message: "Success Get Data",
-      data: data,
+      message: "Success Update Data",
+      status,
     });
+  } else {
+    res.status(200).json({
+      code: 200,
+      message: "Failed Update Data",
+      status,
+    });
+  }
 }
-function handleUpdate(res, data){
-    const status = data[0]
-    if( status == 1){
-        res.status(200).json({
-          code: 200,
-          message: "Success Update Data",
-          status,
-        });        
-    }else{
-        res.status(200).json({
-          code: 200,
-          message: "Failed Update Data",
-          status,
-        }); 
-    }
-}
-function handleDelete(res, status){
-    if (status == 1) {
-      res.status(200).json({
-        code: 200,
-        message: "Success Delete Data",
-        status,
-      });
-    } else {
-      res.status(200).json({
-        code: 200,
-        message: "Failed Delete Data",
-        status,
-      });
-    }
+function handleDelete(res, status) {
+  if (status == 1) {
+    res.status(200).json({
+      code: 200,
+      message: "Success Delete Data",
+      status,
+    });
+  } else {
+    res.status(200).json({
+      code: 200,
+      message: "Failed Delete Data",
+      status,
+    });
+  }
 }
 
-module.exports = { handlerError, handleCreate, handleGet, handleUpdate, handleDelete };
+module.exports = {
+  handlerError,
+  handleCreate,
+  handleGet,
+  handleUpdate,
+  handleDelete,
+};

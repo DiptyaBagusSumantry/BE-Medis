@@ -156,7 +156,7 @@ const Patient = (sequelizeInstance) => {
     },
     {
       freezeTableName: true,
-      paranoid: true,
+      // paranoid: true,
       underscored: true,
     }
   );

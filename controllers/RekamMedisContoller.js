@@ -13,8 +13,15 @@ const {
 class RekamMedisController {
   static async createRekamMedis(req, res) {
     try {
-      const { date, diagnosis, therapy, service, description, odontogram } =
-        req.body;
+      const {
+        date,
+        diagnosis,
+        therapy,
+        service,
+        description,
+        odontogram,
+        patient_id,
+      } = req.body;
 
       //count total pyemnt
       let total_payment = 0;
@@ -32,14 +39,14 @@ class RekamMedisController {
         therapy,
         description,
         odontogram: JSON.stringify(odontogram),
-        patientId: createPatient.id,
+        patientId: patient_id,
       });
 
       await Transaction.create({
         invoice: `${new Date().getTime()}`,
         purchased: JSON.stringify(service),
         total_payment: total_payment.toString(),
-        patientId: createPatient.id,
+        patientId: patient_id,
         historyPatientId: createRM.id,
       });
 
