@@ -13,28 +13,8 @@ const {
 class RekamMedisController {
   static async createRekamMedis(req, res) {
     try {
-      const {
-        date,
-        name,
-        service,
-        odontogram,
-        place_birth,
-        date_birth,
-        gender,
-        address,
-        work,
-        phone,
-        history_illness,
-        diagnosis,
-        therapy,
-        status,
-        description,
-        answer_tooth,
-      } = req.body;
-
-      //number RM
-      let countPatient = (await Patient.count()) + 1;
-      const number_regristation = String(countPatient).padStart(6, "0");
+      const { date, diagnosis, therapy, service, description, odontogram } =
+        req.body;
 
       //count total pyemnt
       let total_payment = 0;
@@ -46,25 +26,12 @@ class RekamMedisController {
         return handlerError(res, err);
       }
 
-      const createPatient = await Patient.create({
-        number_regristation,
-        fullname: name,
-        place_birth: place_birth || "not-found",
-        date_birth: date_birth || date,
-        gender: gender || "not-found",
-        address: address || "not-found",
-        work: work || "not-found",
-        phone: phone || `${new Date().getTime()}`,
-        history_illness: history_illness || "not-found",
-      });
-
       const createRM = await RekamMedis.create({
         date,
-        diagnosis: diagnosis || "not-found",
-        therapy: therapy ||"not-found",
-        status: status || "not-found",
-        description: description || "not-found",
-        answer_tooth: JSON.stringify(odontogram),
+        diagnosis,
+        therapy,
+        description,
+        odontogram: JSON.stringify(odontogram),
         patientId: createPatient.id,
       });
 

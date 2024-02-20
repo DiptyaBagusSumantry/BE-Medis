@@ -53,20 +53,6 @@ const historyPatient = (sequelizeInstance) => {
           },
         },
       },
-      status: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-          notNull: {
-            args: true,
-            msg: "Status Can't be Null!",
-          },
-          notEmpty: {
-            args: true,
-            msg: "Status Can't be Empty!",
-          },
-        },
-      },
       description: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -81,17 +67,17 @@ const historyPatient = (sequelizeInstance) => {
           },
         },
       },
-      answer_tooth: {
+      odontogram: {
         type: Sequelize.TEXT,
         // allowNull: false,
         // validate: {
         //   notNull: {
         //     args: true,
-        //     msg: "Answer Tooth Can't be Null!",
+        //     msg: "Odontogram Can't be Null!",
         //   },
         //   notEmpty: {
         //     args: true,
-        //     msg: "Answer Tooth Can't be Empty!",
+        //     msg: "Odontogram Can't be Empty!",
         //   },
         // },
       },
