@@ -67,6 +67,20 @@ const historyPatient = (sequelizeInstance) => {
           },
         },
       },
+      service: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Service Can't be Null!",
+          },
+          notEmpty: {
+            args: true,
+            msg: "Service Can't be Empty!",
+          },
+        },
+      },
       odontogram: {
         type: Sequelize.TEXT,
         // allowNull: false,

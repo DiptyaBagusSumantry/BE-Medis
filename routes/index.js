@@ -61,6 +61,12 @@ router.get(
   IsAdmin,
   RekamMedisController.getDetailbyPatient
 );
+router.delete(
+  "/rekam-medis/:id",
+  verifyToken,
+  IsAdmin,
+  RekamMedisController.deleteRekamMedis
+);
 
 //Invoice
 router.get("/invoice", verifyToken, IsAdmin, TransactionController.getInvoice);

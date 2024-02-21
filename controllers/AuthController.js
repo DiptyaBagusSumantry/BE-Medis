@@ -26,7 +26,7 @@ class AuthController {
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
-          expiresIn: "60m", //detik expreid 5 menit
+          expiresIn: "5760m", //detik expreid 5 menit
         }
       );
 

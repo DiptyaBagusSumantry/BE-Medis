@@ -7,7 +7,7 @@ const {
   handleUpdate,
   handleDelete,
 } = require("../helper/HandlerError.js");
-const sequelize = require('sequelize')
+const sequelize = require("sequelize");
 
 class PatientController {
   static async createPatient(req, res) {
@@ -22,18 +22,18 @@ class PatientController {
         phone,
         history_illness,
       } = req.body;
-      // let countPatient = (await Patient.count()) + 1;
-      // const number_regristation = String(countPatient).padStart(6, "0");
 
-       let countPatient = await Patient.findAll({
-         //  order: [sequelize.fn("max", sequelize.col("number_regristation"))],
-        //  attributes: [
-        //    sequelize.fn("MAX", sequelize.col("number_regristation")),
-        //  ],
-       });
-
-       console.log(countPatient);
-       return res.send(countPatient);
+      //number_regristation
+      const countPatient = await Patient.findAll({
+        attributes: ["number_regristation"],
+      });
+      countPatient.sort((a, b) => {
+        return (
+          parseInt(b.number_regristation) - parseInt(a.number_regristation)
+        );
+      });
+      const numberRm = parseInt(countPatient[0].number_regristation) + 1;
+      const number_regristation = String(numberRm).padStart(6, "0");
 
       await Patient.create({
         number_regristation,
@@ -53,7 +53,7 @@ class PatientController {
   }
   static async getPatient(req, res) {
     try {
-      const {limit, offset, search } = req.query
+      const { limit, offset, search } = req.query;
       const whereClause = {};
       if (req.query.id) {
         whereClause.id = { id: req.query.id };
@@ -62,10 +62,12 @@ class PatientController {
 
       await Patient.findAll({
         whereClause,
+        order: [["number_regristation", "ASC"]],
       }).then((data) => {
         const results = data.map((patient) => {
           const {
             id,
+            number_regristation,
             fullname,
             place_birth,
             date_birth,
@@ -78,6 +80,7 @@ class PatientController {
 
           return {
             id,
+            number_regristation,
             fullname,
             place_birth,
             date_birth,
@@ -94,17 +97,17 @@ class PatientController {
       handlerError(res, error);
     }
   }
-  static async detailPatient(req,res){
+  static async detailPatient(req, res) {
     try {
       await Patient.findOne({
         where: {
-          id: req.params.id
-        }
-      }).then(data=>{
-        handleGet(res,data)
-      })
+          id: req.params.id,
+        },
+      }).then((data) => {
+        handleGet(res, data);
+      });
     } catch (error) {
-      handlerError/(res,error)
+      handlerError / (res, error);
     }
   }
   static async updatePatient(req, res) {

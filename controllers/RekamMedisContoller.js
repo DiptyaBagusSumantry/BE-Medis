@@ -37,6 +37,7 @@ class RekamMedisController {
         date,
         diagnosis,
         therapy,
+        service: JSON.stringify(service),
         description,
         odontogram: JSON.stringify(odontogram),
         patientId: patient_id,
@@ -58,22 +59,21 @@ class RekamMedisController {
   static async getRM(req, res) {
     try {
       const get = await RekamMedis.findAll({
-        include: [{ model: Patient }, { model: Transaction }],
+        include: { model: Patient },
       });
       const reuslt = get.map((data) => {
-        console.log(data.dataValues.transactions[0].purchased);
-        const { id, date } = data.dataValues;
+        const { id, date, description, service } = data.dataValues;
         const { number_regristation, fullname, phone, gender } =
           data.dataValues.patient;
-        const { purchased } = data.dataValues.transactions[0];
         let hasil = "";
-        const proses = JSON.parse(purchased);
+        const proses = JSON.parse(service);
         proses.forEach((data) => {
           hasil += data.name + ", ";
         });
         return {
           id,
           number_regristation,
+          description,
           date,
           fullname,
           gender,
@@ -90,9 +90,14 @@ class RekamMedisController {
     try {
       const get = await RekamMedis.findOne({
         where: { id: req.params.id },
-        include: [{ model: Patient }, { model: Transaction }],
+        include: { model: Patient },
       });
-      const { id, diagnosis, therapy, description, date } = get.dataValues;
+      if(!get){
+        return handleGet(res, get)
+      }
+
+      const { id, diagnosis, therapy, description, date, service, odontogram } =
+        get.dataValues;
       const {
         number_regristation,
         fullname,
@@ -104,13 +109,6 @@ class RekamMedisController {
         work,
         history_illness,
       } = get.dataValues.patient;
-      const { purchased } = get.dataValues.transactions[0];
-
-      let hasil = "";
-      const proses = JSON.parse(purchased);
-      proses.forEach((data) => {
-        hasil += data.name + ", ";
-      });
 
       const tgl = new Date(date).toLocaleDateString("id-ID", {
         day: "2-digit",
@@ -133,26 +131,78 @@ class RekamMedisController {
         diagnosis,
         therapy,
         description,
-        hasil,
+        service: JSON.parse(service),
+        odontogram: JSON.parse(odontogram),
       };
       handleGet(res, data);
     } catch (error) {
       handlerError(res, error);
     }
   }
-  static async getDetailbyPatient(req,res){
+  static async getDetailbyPatient(req, res) {
     try {
       const get = await Patient.findAll({
         where: {
-          id: req.params.id
+          id: req.params.id,
         },
         include: {
-          model: RekamMedis
+          model: RekamMedis,
+        },
+      });
+      if (!get) {
+        return handleGet(res, get);
+      }
+      const rekamMedis = get[0].dataValues.history_patients;
+      const data = rekamMedis.map(reuslt=>{
+        const { date, diagnosis, therapy, description, service, odontogram } =
+          reuslt.dataValues;
+          const {
+            id,
+            number_regristation,
+            fullname,
+            place_birth,
+            date_birth,
+            gender,
+            phone,
+            address,
+            work,
+            history_illness,
+          } = get[0].dataValues;
+          return {
+            id,
+            number_regristation,
+            fullname,
+            place_birth,
+            date_birth,
+            gender,
+            phone,
+            address,
+            work,
+            history_illness,
+            date,
+            diagnosis,
+            therapy,
+            description,
+            service: JSON.parse(service),
+            odontogram: JSON.parse(odontogram),
+          };
+      })
+
+      handleGet(res,data[0]);
+    } catch (error) {
+      handlerError(res, error);
+    }
+  }
+  static async deleteRekamMedis(req,res){
+    try {
+      const deleteRM = await RekamMedis.destroy({
+        where: {
+          id: req.params.id
         }
       })
-      handleGet(res, get[0])
+      handleDelete(res, deleteRM)
     } catch (error) {
-      handlerError(res,error)
+      handlerError(res, error)
     }
   }
 }
