@@ -24,9 +24,14 @@ class PatientController {
       } = req.body;
 
       //number_regristation
-      const countPatient = await Patient.findAll({
+      let countPatient = await Patient.findAll({
         attributes: ["number_regristation"],
       });
+
+      if (countPatient.length <= 0) {
+        countPatient.push({ number_regristation: "000000" });
+      }
+
       countPatient.sort((a, b) => {
         return (
           parseInt(b.number_regristation) - parseInt(a.number_regristation)
