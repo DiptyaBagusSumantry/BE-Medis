@@ -55,6 +55,12 @@ router.get(
   IsAdmin,
   RekamMedisController.getDetailRM
 );
+router.get(
+  "/rekam-medis/patient/:id",
+  verifyToken,
+  IsAdmin,
+  RekamMedisController.getDetailbyPatient
+);
 
 //Invoice
 router.get("/invoice", verifyToken, IsAdmin, TransactionController.getInvoice);

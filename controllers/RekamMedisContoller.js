@@ -140,6 +140,21 @@ class RekamMedisController {
       handlerError(res, error);
     }
   }
+  static async getDetailbyPatient(req,res){
+    try {
+      const get = await Patient.findAll({
+        where: {
+          id: req.params.id
+        },
+        include: {
+          model: RekamMedis
+        }
+      })
+      handleGet(res, get[0])
+    } catch (error) {
+      handlerError(res,error)
+    }
+  }
 }
 
 module.exports = RekamMedisController;
