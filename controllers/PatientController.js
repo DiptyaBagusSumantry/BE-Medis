@@ -8,6 +8,9 @@ const {
   handleDelete,
 } = require("../helper/HandlerError.js");
 const sequelize = require("sequelize");
+const { paginator } = require("../helper/Pagination.js");
+const { searchWhere } = require("../helper/Search.js");
+const { Op } = require("sequelize");
 
 class PatientController {
   static async createPatient(req, res) {
@@ -27,11 +30,9 @@ class PatientController {
       let countPatient = await Patient.findAll({
         attributes: ["number_regristation"],
       });
-
       if (countPatient.length <= 0) {
         countPatient.push({ number_regristation: "000000" });
       }
-
       countPatient.sort((a, b) => {
         return (
           parseInt(b.number_regristation) - parseInt(a.number_regristation)
@@ -58,17 +59,17 @@ class PatientController {
   }
   static async getPatient(req, res) {
     try {
-      const { limit, offset, search } = req.query;
-      const whereClause = {};
-      if (req.query.id) {
-        whereClause.id = { id: req.query.id };
-      }
-      // return res.send(whereClause)
+      const { page, limit, searach, sorting } = req.query;
+      let whereClause = {};
+      //sorting
+      whereClause.order = [["number_regristation", sorting ? sorting : "ASC"]];
 
-      await Patient.findAll({
-        whereClause,
-        order: [["number_regristation", "ASC"]],
-      }).then((data) => {
+      //searching
+      if (searach) {
+        whereClause.where = searchWhere(searach, "fullname", "phone");
+      }
+
+      await Patient.findAll(whereClause).then((data) => {
         const results = data.map((patient) => {
           const {
             id,
@@ -96,7 +97,9 @@ class PatientController {
             history_illness,
           };
         });
-        handleGet(res, results);
+
+        handleGet(res, paginator(results, page?page:1, limit?limit:20))
+        // handleGet(res, results);
       });
     } catch (error) {
       handlerError(res, error);
