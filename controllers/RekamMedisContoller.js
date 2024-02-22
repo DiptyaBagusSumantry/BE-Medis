@@ -93,7 +93,7 @@ class RekamMedisController {
         include: { model: Patient },
       });
       if(!get){
-        return handleGet(res, get)
+        return handleGet(res, get);
       }
 
       const { id, diagnosis, therapy, description, date, service, odontogram } =
@@ -149,60 +149,63 @@ class RekamMedisController {
           model: RekamMedis,
         },
       });
-      if (!get) {
+      if (get.length <= 0) {
         return handleGet(res, get);
       }
+      if (get[0].dataValues.history_patients.length <= 0) {
+        return handlerError(res, { message: "History Rekam Medis Not Found" });
+      }
       const rekamMedis = get[0].dataValues.history_patients;
-      const data = rekamMedis.map(reuslt=>{
+      const data = rekamMedis.map((reuslt) => {
         const { date, diagnosis, therapy, description, service, odontogram } =
           reuslt.dataValues;
-          const {
-            id,
-            number_regristation,
-            fullname,
-            place_birth,
-            date_birth,
-            gender,
-            phone,
-            address,
-            work,
-            history_illness,
-          } = get[0].dataValues;
-          return {
-            id,
-            number_regristation,
-            fullname,
-            place_birth,
-            date_birth,
-            gender,
-            phone,
-            address,
-            work,
-            history_illness,
-            date,
-            diagnosis,
-            therapy,
-            description,
-            service: JSON.parse(service),
-            odontogram: JSON.parse(odontogram),
-          };
-      })
-
-      handleGet(res,data[0]);
+        const {
+          id,
+          number_regristation,
+          // fullname,
+          // place_birth,
+          // date_birth,
+          // gender,
+          // phone,
+          // address,
+          // work,
+          // history_illness,
+        } = get[0].dataValues;
+        return {
+          id,
+          number_regristation,
+          // fullname,
+          // place_birth,
+          // date_birth,
+          // gender,
+          // phone,
+          // address,
+          // work,
+          // history_illness,
+          date,
+          // diagnosis,
+          // therapy,
+          description,
+          service: JSON.parse(service),
+          odontogram: JSON.parse(odontogram),
+        };
+      });
+      // return res.send(data)
+      handleGet(res, data);
     } catch (error) {
       handlerError(res, error);
     }
   }
-  static async deleteRekamMedis(req,res){
+  static async deleteRekamMedis(req, res) {
     try {
       const deleteRM = await RekamMedis.destroy({
         where: {
-          id: req.params.id
-        }
-      })
-      handleDelete(res, deleteRM)
+          id: req.params.id,
+        },
+      });
+      handleDelete(res, deleteRM);
     } catch (error) {
-      handlerError(res, error)
+      handlerError(res, error);
     }
   }
 }

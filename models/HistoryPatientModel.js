@@ -82,7 +82,7 @@ const historyPatient = (sequelizeInstance) => {
         },
       },
       odontogram: {
-        type: Sequelize.TEXT,
+        type: Sequelize.TEXT("long"),
         // allowNull: false,
         // validate: {
         //   notNull: {
