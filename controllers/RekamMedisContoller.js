@@ -157,10 +157,9 @@ class RekamMedisController {
       }
       const rekamMedis = get[0].dataValues.history_patients;
       const data = rekamMedis.map((reuslt) => {
-        const { date, diagnosis, therapy, description, service, odontogram } =
+        const { id, date, diagnosis, therapy, description, service, odontogram } =
           reuslt.dataValues;
         const {
-          id,
           number_regristation,
           // fullname,
           // place_birth,
