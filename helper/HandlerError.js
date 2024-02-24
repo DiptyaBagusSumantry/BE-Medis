@@ -24,6 +24,16 @@ function handleGet(res, data) {
     data: data,
   });
 }
+function handleGetPaginator(res, result) {
+  const { data, totalPages, currentPages } = result;
+  res.status(200).json({
+    code: 200,
+    message: "Success Get Data",
+    data,
+    totalPages,
+    currentPages,
+  });
+}
 function handleUpdate(res, data) {
   const status = data[0];
   if (status == 1) {
@@ -62,4 +72,5 @@ module.exports = {
   handleGet,
   handleUpdate,
   handleDelete,
+  handleGetPaginator,
 };

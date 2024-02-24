@@ -4,27 +4,37 @@ const Patient = Models.Patient;
 const Transaction = Models.Transaction;
 const {
   handlerError,
-  handleCreate,
-  handleGet,
   handleUpdate,
-  handleDelete,
+  handleGetPaginator,
+
 } = require("../helper/HandlerError.js");
-const { where } = require("sequelize");
+const { paginator } = require("../helper/Pagination.js");
+const { searchWhere } = require("../helper/Search.js");
 
 class TransactionController {
   static async getInvoice(req, res) {
     try {
-      const invoiceId = req.query.invoiceId;
+      const { page, search, sorting, invoiceId } = req.query;
+      // const invoiceId = req.query.invoiceId;
       const whereClause = {
         include: { model: Patient },
       };
+      //sorting
+      whereClause.order = [["createdAt", sorting ? sorting : "DESC"]];
+
+      //searching
+      if (search) {
+        whereClause.where = searchWhere(search, "invoice", "fullname");
+      }
+
+      //detail invoice
       if (invoiceId) {
         whereClause.where = { id: invoiceId };
       }
 
       const getInvoice = await Transaction.findAll(whereClause);
 
-      const result = getInvoice.map((data) => {
+      const results = getInvoice.map((data) => {
         let { id, invoice, total_payment, status, purchased, createdAt } =
           data.dataValues;
         const { fullname } = data.dataValues.patient;
@@ -43,7 +53,7 @@ class TransactionController {
           purchased: JSON.parse(purchased),
         };
       });
-      handleGet(res, result);
+      handleGetPaginator(res, paginator(results, page ? page : 1, 20));
     } catch (error) {
       handlerError(res, error);
     }

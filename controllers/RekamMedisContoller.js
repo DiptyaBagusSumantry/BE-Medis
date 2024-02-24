@@ -6,9 +6,11 @@ const {
   handlerError,
   handleCreate,
   handleGet,
-  handleUpdate,
+  handleGetPaginator,
   handleDelete,
 } = require("../helper/HandlerError.js");
+const { paginator } = require("../helper/Pagination.js");
+const { searchWhere } = require("../helper/Search.js");
 
 class RekamMedisController {
   static async createRekamMedis(req, res) {
@@ -58,30 +60,39 @@ class RekamMedisController {
   }
   static async getRM(req, res) {
     try {
-      const get = await RekamMedis.findAll({
-        include: { model: Patient },
-      });
-      const reuslt = get.map((data) => {
-        const { id, date, description, service } = data.dataValues;
-        const { number_regristation, fullname, phone, gender } =
-          data.dataValues.patient;
-        let hasil = "";
-        const proses = JSON.parse(service);
-        proses.forEach((data) => {
-          hasil += data.name + ", ";
+      const { page, search, sorting } = req.query;
+      let whereClause = { include: { model: Patient } };
+      //sorting
+      whereClause.order = [["createdAt", sorting ? sorting : "DESC"]];
+
+      //searching
+      if (search) {
+        whereClause.where = searchWhere(search, "number_regristation", "phone");
+      }
+
+      await RekamMedis.findAll(whereClause).then((get) => {
+        const results = get.map((data) => {
+          const { id, date, description, service } = data.dataValues;
+          const { number_regristation, fullname, phone, gender } =
+            data.dataValues.patient;
+          let hasil = "";
+          const proses = JSON.parse(service);
+          proses.forEach((data) => {
+            hasil += data.name + ", ";
+          });
+          return {
+            id,
+            number_regristation,
+            description,
+            date,
+            fullname,
+            gender,
+            phone,
+            hasil,
+          };
         });
-        return {
-          id,
-          number_regristation,
-          description,
-          date,
-          fullname,
-          gender,
-          phone,
-          hasil,
-        };
+        handleGetPaginator(res, paginator(results, page ? page : 1, 20));
       });
-      handleGet(res, reuslt);
     } catch (error) {
       handlerError(res, error);
     }
@@ -92,7 +103,7 @@ class RekamMedisController {
         where: { id: req.params.id },
         include: { model: Patient },
       });
-      if(!get){
+      if (!get) {
         return handleGet(res, get);
       }
 
@@ -157,8 +168,15 @@ class RekamMedisController {
       }
       const rekamMedis = get[0].dataValues.history_patients;
       const data = rekamMedis.map((reuslt) => {
-        const { id, date, diagnosis, therapy, description, service, odontogram } =
-          reuslt.dataValues;
+        const {
+          id,
+          date,
+          diagnosis,
+          therapy,
+          description,
+          service,
+          odontogram,
+        } = reuslt.dataValues;
         const {
           number_regristation,
           // fullname,

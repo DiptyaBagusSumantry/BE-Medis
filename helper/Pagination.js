@@ -5,7 +5,7 @@ function paginator(items, page, limit) {
   return {
     data: paginatedItems,
     totalPages: total_pages,
-    totaldata: items.length,
+    currentPages: page,
   };
 }
 

@@ -6,7 +6,10 @@ const {
   handleGet,
   handleUpdate,
   handleDelete,
+  handleGetPaginator,
 } = require("../helper/HandlerError.js");
+const { paginator } = require("../helper/Pagination.js");
+const { searchWhere } = require("../helper/Search.js");
 
 class MedicineController {
   static async createMedicine(req, res) {
@@ -24,8 +27,18 @@ class MedicineController {
   }
   static async getMedicine(req, res) {
     try {
-      const get = await Medicine.findAll();
-      handleGet(res, get);
+      const { page, search, sorting } = req.query;
+      let whereClause = {};
+      //sorting
+      whereClause.order = [["name", sorting ? sorting : "ASC"]];
+
+      //searching
+      if (search) {
+        whereClause.where = searchWhere(search, "name", "code");
+      }
+
+      const results = await Medicine.findAll(whereClause);
+      handleGetPaginator(res, paginator(results, page ? page : 1, 20));
     } catch (error) {
       handlerError(res, error);
     }
@@ -33,9 +46,9 @@ class MedicineController {
   static async getDetailMedicine(req, res) {
     try {
       const get = await Medicine.findOne({
-        where:{
-          id: req.params.id
-        }
+        where: {
+          id: req.params.id,
+        },
       });
       handleGet(res, get);
     } catch (error) {
@@ -63,7 +76,7 @@ class MedicineController {
   static async deleteMedicine(req, res) {
     try {
       const get = await Medicine.destroy({
-        where: {id: req.params.id}
+        where: { id: req.params.id },
       });
       handleDelete(res, get);
     } catch (error) {

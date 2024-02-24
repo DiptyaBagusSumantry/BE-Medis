@@ -5,6 +5,7 @@ const {
   handlerError,
   handleGet,
   handleUpdate,
+  handleGetPaginator,
   handleDelete,
 } = require("../helper/HandlerError.js");
 const sequelize = require("sequelize");
@@ -59,14 +60,14 @@ class PatientController {
   }
   static async getPatient(req, res) {
     try {
-      const { page, limit, searach, sorting } = req.query;
+      const { page, search, sorting } = req.query;
       let whereClause = {};
       //sorting
       whereClause.order = [["number_regristation", sorting ? sorting : "ASC"]];
 
       //searching
-      if (searach) {
-        whereClause.where = searchWhere(searach, "fullname", "phone");
+      if (search) {
+        whereClause.where = searchWhere(search, "fullname", "phone");
       }
 
       await Patient.findAll(whereClause).then((data) => {
@@ -98,8 +99,7 @@ class PatientController {
           };
         });
 
-        handleGet(res, paginator(results, page?page:1, limit?limit:20))
-        // handleGet(res, results);
+        handleGetPaginator(res, paginator(results, page ? page : 1, 20));
       });
     } catch (error) {
       handlerError(res, error);
