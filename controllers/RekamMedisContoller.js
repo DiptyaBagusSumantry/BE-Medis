@@ -73,8 +73,13 @@ class RekamMedisController {
       await RekamMedis.findAll(whereClause).then((get) => {
         const results = get.map((data) => {
           const { id, date, description, service } = data.dataValues;
-          const { number_regristation, fullname, phone, gender } =
-            data.dataValues.patient;
+          const {
+            id : id_patient,
+            number_regristation,
+            fullname,
+            phone,
+            gender,
+          } = data.dataValues.patient;
           let hasil = "";
           const proses = JSON.parse(service);
           proses.forEach((data) => {
@@ -82,6 +87,7 @@ class RekamMedisController {
           });
           return {
             id,
+            id_patient,
             number_regristation,
             description,
             date,
