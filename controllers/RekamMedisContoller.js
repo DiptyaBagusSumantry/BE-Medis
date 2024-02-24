@@ -72,7 +72,15 @@ class RekamMedisController {
 
       await RekamMedis.findAll(whereClause).then((get) => {
         const results = get.map((data) => {
-          const { id, date, description, service } = data.dataValues;
+          const {
+            id,
+            date,
+            description,
+            service,
+            odontogram,
+            diagnosis,
+            therapy,
+          } = data.dataValues;
           const {
             id : id_patient,
             number_regristation,
@@ -95,6 +103,9 @@ class RekamMedisController {
             gender,
             phone,
             hasil,
+            diagnosis,
+            therapy,
+            odontogram: JSON.parse(odontogram)
           };
         });
         handleGetPaginator(res, paginator(results, page ? page : 1, 20));
