@@ -124,9 +124,8 @@ const User = (sequelizeInstance) => {
         },
       },
       role: {
-        type: Sequelize.ENUM,
+        type: Sequelize.STRING,
         allowNull: false,
-        values: ["admin", "officer"],
         validate: {
           notEmpty: {
             args: true,
