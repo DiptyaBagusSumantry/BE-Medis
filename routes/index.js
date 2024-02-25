@@ -9,6 +9,7 @@ const TransactionController = require("../controllers/TransactionController.js")
 const { IsAdmin } = require("../middlewares/chekRole.js");
 
 router.post("/login", AuthController.Login);
+router.post("/register", AuthController.register);
 router.post("/logout", verifyToken, AuthController.Logout);
 router.get("/fetch", verifyToken, AuthController.Fetch);
 

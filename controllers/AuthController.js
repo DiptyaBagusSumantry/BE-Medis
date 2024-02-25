@@ -1,6 +1,7 @@
 const Models = require("../models/index.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { handlerError, handleCreate } = require("../helper/HandlerError.js");
 
 const User = Models.User;
 
@@ -71,10 +72,28 @@ class AuthController {
     }
   }
 
+  static async register(req, res) {
+    try {
+      const { username, password, role, fullname, phone, email } = req.body;
+
+      await Models.User.create({
+        username,
+        password,
+        role,
+        fullname,
+        phone,
+        email,
+      })
+      handleCreate(res)
+    } catch (error) {
+      handlerError(res, error);
+    }
+  }
+
   static async Logout(req, res) {
     try {
-       const authHeader = req.headers["authorization"];
-       const token = authHeader && authHeader.split(" ")[1];
+      const authHeader = req.headers["authorization"];
+      const token = authHeader && authHeader.split(" ")[1];
 
       jwt.verify(
         token,
@@ -91,7 +110,6 @@ class AuthController {
       });
     }
   }
-
 }
 
 module.exports = AuthController;
