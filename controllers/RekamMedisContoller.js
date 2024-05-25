@@ -67,7 +67,7 @@ class RekamMedisController {
 
       //searching
       if (search) {
-        whereClause.where = searchWhere(search, "number_regristation", "phone");
+        whereClause.where = searchWhere(search, "patient.fullname", "phone");
       }
 
       await RekamMedis.findAll(whereClause).then((get) => {
@@ -94,7 +94,7 @@ class RekamMedisController {
             hasil += data.name + ", ";
           });
           return {
-            id,
+            id,  
             id_patient,
             number_regristation,
             description,
