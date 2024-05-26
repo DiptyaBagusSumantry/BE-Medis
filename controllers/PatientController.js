@@ -88,7 +88,7 @@ class PatientController {
 
       //searching
       if (search) {
-        whereClause.where = searchWhere(search, "fullname", "phone");
+        whereClause.where = searchWhere(search, "nik", "number_regristation");
       }
 
       await Patient.findAll(whereClause).then((data) => {
