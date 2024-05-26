@@ -39,7 +39,7 @@ Authorization: Bearer {{token}}
 
 //GET PATIENT
 ###
-GET http://localhost:5003/patient?search=
+GET http://localhost:5003/patient?search=12345
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
@@ -125,7 +125,7 @@ Content-Type: application/json
 
 //GET Invoice
 ###
-GET http://localhost:5003/invoice?page=&search=&sorting=&invoiceId=&startDate=2024-05-15&endDate=2024-05-26
+GET http://localhost:5003/invoice?page=&search=&sorting=&invoiceId=&startDate=2024-05-26&endDate=2024-05-26&patientId=d3574dc7-6f3d-4851-ac92-72ab120d2f29
 Authorization: Bearer {{token}}
 Content-Type: application/json
 

@@ -17,7 +17,7 @@ const { filter } = require("../helper/FIlter.js");
 class TransactionController {
   static async getInvoice(req, res) {
     try {
-      const { page, search, sorting, invoiceId, startDate, endDate } =
+      const { page, search, sorting, invoiceId, startDate, endDate, patientId } =
         req.query;
       // const invoiceId = req.query.invoiceId;
       const whereClause = {
@@ -37,6 +37,11 @@ class TransactionController {
       //searching
       if (search) {
         whereClause.where = searchWhere(search, "invoice", "fullname");
+      }
+
+      //patientId
+      if(patientId){
+        whereClause.include.where = {id: patientId}
       }
       // console.log(whereClause)
       // return res.send(whereClause)
