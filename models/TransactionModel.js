@@ -41,7 +41,7 @@ const Transaction = (sequelizeInstance) => {
       },
       status: {
         type: Sequelize.STRING,
-        defaultValue: false
+        defaultValue: false,
       },
       purchased: {
         type: Sequelize.STRING,
@@ -54,6 +54,20 @@ const Transaction = (sequelizeInstance) => {
           notEmpty: {
             args: true,
             msg: "Purchased Can't be Empty!",
+          },
+        },
+      },
+      date: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Date Can't be Null!",
+          },
+          notEmpty: {
+            args: true,
+            msg: "Date Can't be Empty!",
           },
         },
       },

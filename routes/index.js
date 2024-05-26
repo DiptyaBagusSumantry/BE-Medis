@@ -36,6 +36,7 @@ router.delete("/patient/:id", verifyToken, PatientController.deletePatient);
 router.post("/rekam-medis", verifyToken, RekamMedisController.createRekamMedis);
 router.get("/rekam-medis", verifyToken, RekamMedisController.getRM);
 router.get("/rekam-medis/:id", verifyToken, RekamMedisController.getDetailRM);
+router.put("/rekam-medis-koreksi/:id", verifyToken, RekamMedisController.updateKoreksi);
 router.get(
   "/rekam-medis/patient/:id",
   verifyToken,
@@ -50,5 +51,7 @@ router.delete(
 //Invoice
 router.get("/invoice", verifyToken, TransactionController.getInvoice);
 router.put("/invoice/:id", verifyToken, TransactionController.updateInvoice);
+
+router.get("/dashboard", verifyToken, PatientController.dashboard);
 
 module.exports = router;

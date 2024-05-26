@@ -2,19 +2,23 @@ const Models = require("../models/index");
 const RekamMedis = Models.HistoryPatient;
 const Patient = Models.Patient;
 const Transaction = Models.Transaction;
+const moment = require("moment");
+
 const {
   handlerError,
   handleUpdate,
   handleGetPaginator,
-
 } = require("../helper/HandlerError.js");
 const { paginator } = require("../helper/Pagination.js");
 const { searchWhere } = require("../helper/Search.js");
+const { Op, Sequelize } = require("sequelize");
+const { filter } = require("../helper/FIlter.js");
 
 class TransactionController {
   static async getInvoice(req, res) {
     try {
-      const { page, search, sorting, invoiceId } = req.query;
+      const { page, search, sorting, invoiceId, startDate, endDate } =
+        req.query;
       // const invoiceId = req.query.invoiceId;
       const whereClause = {
         include: { model: Patient },
@@ -22,11 +26,20 @@ class TransactionController {
       //sorting
       whereClause.order = [["createdAt", sorting ? sorting : "DESC"]];
 
+      //filter
+      if (endDate) {
+        whereClause.where = {
+          ...whereClause.where,
+          ...filter(startDate, endDate),
+        };
+      }
+
       //searching
       if (search) {
         whereClause.where = searchWhere(search, "invoice", "fullname");
       }
-
+      // console.log(whereClause)
+      // return res.send(whereClause)
       //detail invoice
       if (invoiceId) {
         whereClause.where = { id: invoiceId };
@@ -35,22 +48,45 @@ class TransactionController {
       const getInvoice = await Transaction.findAll(whereClause);
 
       const results = getInvoice.map((data) => {
-        let { id, invoice, total_payment, status, purchased, createdAt } =
+        let { id, invoice, total_payment, status, purchased, createdAt, service } =
           data.dataValues;
-        const { fullname } = data.dataValues.patient;
+          const {
+            number_regristation: noRm,
+            fullname,
+            address,
+            alamatKTP,
+            kecamatan,
+            kelurahan,
+            kota,
+            kodePos,
+            rt,
+            rw,
+          } = data.dataValues.patient;
         createdAt = new Date(createdAt).toLocaleDateString("id-ID", {
           day: "2-digit",
           month: "long",
           year: "numeric",
         });
+        purchased =JSON.parse(purchased)
+        service = purchased.map((results) => results.name).join(", ");
         return {
           id,
           invoice,
           total_payment,
           status,
           createdAt,
+          purchased,
+          service,
           fullname,
-          purchased: JSON.parse(purchased),
+          noRm,
+          address,
+          alamatKTP,
+          kecamatan,
+          kelurahan,
+          kota,
+          kodePos,
+          rt,
+          rw,
         };
       });
       handleGetPaginator(res, paginator(results, page ? page : 1, 20));

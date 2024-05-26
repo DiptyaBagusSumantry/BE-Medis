@@ -2,15 +2,18 @@ const Models = require("../models/index");
 const RekamMedis = Models.HistoryPatient;
 const Patient = Models.Patient;
 const Transaction = Models.Transaction;
+const moment = require("moment");
 const {
   handlerError,
   handleCreate,
   handleGet,
   handleGetPaginator,
   handleDelete,
+  handleUpdate,
 } = require("../helper/HandlerError.js");
 const { paginator } = require("../helper/Pagination.js");
 const { searchWhere } = require("../helper/Search.js");
+const { filter } = require("../helper/FIlter.js");
 
 class RekamMedisController {
   static async createRekamMedis(req, res) {
@@ -51,6 +54,7 @@ class RekamMedisController {
         total_payment: total_payment.toString(),
         patientId: patient_id,
         historyPatientId: createRM.id,
+        date: moment().format("YYYY-MM-DD"),
       });
 
       handleCreate(res);
@@ -60,14 +64,25 @@ class RekamMedisController {
   }
   static async getRM(req, res) {
     try {
-      const { page, search, sorting } = req.query;
-      let whereClause = { include: { model: Patient } };
+      const { page, search, sorting, startDate, endDate } = req.query;
+      let whereClause = { include: { model: Patient }, where: {} };
       //sorting
       whereClause.order = [["createdAt", sorting ? sorting : "DESC"]];
 
+      //filter
+      if (endDate) {
+        whereClause.where = {
+          ...whereClause.where,
+          ...filter(startDate, endDate),
+        };
+      }
+
       //searching
       if (search) {
-        whereClause.where = searchWhere(search, "patient.fullname", "phone");
+        whereClause.where = {
+          ...whereClause.where,
+          ...searchWhere(search, "patient.phone", "patient.nik"),
+        };
       }
 
       await RekamMedis.findAll(whereClause).then((get) => {
@@ -80,22 +95,22 @@ class RekamMedisController {
             odontogram,
             diagnosis,
             therapy,
+            koreksi
           } = data.dataValues;
           const {
-            id : id_patient,
+            id: id_patient,
+            nik,
             number_regristation,
             fullname,
             phone,
             gender,
           } = data.dataValues.patient;
-          let hasil = "";
           const proses = JSON.parse(service);
-          proses.forEach((data) => {
-            hasil += data.name + ", ";
-          });
+          const hasil = proses.map((results) => results.name).join(", ");
           return {
-            id,  
+            id,
             id_patient,
+            nik,
             number_regristation,
             description,
             date,
@@ -105,7 +120,8 @@ class RekamMedisController {
             hasil,
             diagnosis,
             therapy,
-            odontogram: JSON.parse(odontogram)
+            koreksi,
+            odontogram: JSON.parse(odontogram),
           };
         });
         handleGetPaginator(res, paginator(results, page ? page : 1, 20));
@@ -124,7 +140,7 @@ class RekamMedisController {
         return handleGet(res, get);
       }
 
-      const { id, diagnosis, therapy, description, date, service, odontogram } =
+      const { id, diagnosis, therapy, description, date, service, odontogram, koreksi } =
         get.dataValues;
       const {
         number_regristation,
@@ -136,6 +152,16 @@ class RekamMedisController {
         address,
         work,
         history_illness,
+        nik,
+        namaIbuKandung,
+        agama,
+        alamatKTP,
+        kecamatan,
+        kelurahan,
+        kota,
+        kodePos,
+        rt,
+        rw,
       } = get.dataValues.patient;
 
       const tgl = new Date(date).toLocaleDateString("id-ID", {
@@ -156,6 +182,17 @@ class RekamMedisController {
         address,
         work,
         history_illness,
+        koreksi,
+        nik, 
+        namaIbuKandung,
+        agama,
+        alamatKTP,
+        kecamatan,
+        kelurahan,
+        kota,
+        kodePos,
+        rt,
+        rw,
         diagnosis,
         therapy,
         description,
@@ -226,6 +263,21 @@ class RekamMedisController {
       });
       // return res.send(data)
       handleGet(res, data);
+    } catch (error) {
+      handlerError(res, error);
+    }
+  }
+  static async updateKoreksi(req, res) {
+    try {
+      await RekamMedis.update({
+        koreksi: req.body.koreksi
+      },{
+        where:{
+          id: req.params.id
+        }
+      }).then(results=>{
+        handleUpdate(res, results)
+      })
     } catch (error) {
       handlerError(res, error);
     }

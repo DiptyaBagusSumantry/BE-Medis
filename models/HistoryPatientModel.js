@@ -95,6 +95,10 @@ const historyPatient = (sequelizeInstance) => {
         //   },
         // },
       },
+      koreksi: {
+        type: Sequelize.STRING,
+        default: " "
+      },
     },
     {
       freezeTableName: true,

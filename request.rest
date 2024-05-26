@@ -1,20 +1,6 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNiYTA1MjhjLWQ4MGQtNGI3Yi05YzRkLTBhMWE4YWY3MDRmNyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxNjYyNDU2NSwiZXhwIjoxNzE2OTcwMTY1fQ.5LMN2ZJHZbLUYRW2pgStdJX--qLv23dlB0qOBZ18Qqk
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNiYTA1MjhjLWQ4MGQtNGI3Yi05YzRkLTBhMWE4YWY3MDRmNyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxNjcwMDUwOSwiZXhwIjoxNzE3MDQ2MTA5fQ.1EgkdBF3UlCZwk5sjQhYBBcpUKGTi9N1jjnCGkGhwSY
 
-//register patient
-###
-POST http://localhost:5003/register-patient
-Content-Type: application/json
-
-{
-    "nik": "1234567821236497",
-    "fullname": "Patient 1",
-    "date_birth": "2024-03-12",
-    "gender": "Patient 1",
-    "address": "Patient 1",
-    "work": "Patient 1",
-    "phone": "01234568921"
-}
-
+//login
 ###
 POST http://localhost:5003/login
 Content-Type: application/json
@@ -24,104 +10,129 @@ Content-Type: application/json
     "password" : "Admin1234!"
 }
 
+//create patient
 ###
-POST http://localhost:5003/patient/login
+POST http://localhost:5003/patient
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-    "no_rm" : "000001",
-    "nik" : "1234567821236497"
+    "fullname": "Bagus",
+    "place_birth": "Banyumas",
+    "date_birth": "2024-05-26",
+    "gender": "L",
+    "address": "sokaraja",
+    "work": "programer",
+    "phone": "08123456789",
+    "history_illness": "not-found",
+    "nik": "1234567890123456", 
+    "namaIbuKandung": "Sumantry",
+    "agama": "Islam",
+    "alamatKTP": "sokaraja",
+    "kecamatan": "sokaraja",
+    "kelurahan": "sokaraja",
+    "kota": "Banyumas",
+    "kodePos": "53181",
+    "rt": "3",
+    "rw": "1"
 }
 
-###
-GET http://localhost:5003/fetch
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-//Get ALL Patient
+//GET PATIENT
 ###
 GET http://localhost:5003/patient
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-//Get Detail Patient
+//GET PATIENT DETAIL
 ###
-GET http://localhost:5003/patient/5f142fb7-34c7-432c-8aae-a57d1705cd8c
+GET http://localhost:5003/patient/d3574dc7-6f3d-4851-ac92-72ab120d2f29
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-//chek patient by nik and date_birth IF old patient
+//UPDATE PATIENT
 ###
-GET http://localhost:5003/check-patient?&nik=1234567891236997&date_birth=2024-03-12
+PUT http://localhost:5003/patient/d3574dc7-6f3d-4851-ac92-72ab120d2f29
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+     "fullname": "bagus",
+    "place_birth": "bagus",
+    "date_birth": "2023-02-13",
+    "gender": "L",
+    "address": "Banyumas",
+    "work": "student",
+    "phone": "01236470789",
+    "history_illness": "not-found",
+    "nik": "1234567890123471", 
+    "namaIbuKandung": "Sumantry",
+    "agama": "Islam",
+    "alamatKTP": "sokaraja",
+    "kecamatan": "sokaraja",
+    "kelurahan": "sokaraja",
+    "kota": "Banyumas",
+    "kodePos": "53181",
+    "rt": "3",
+    "rw": "1"
+}
+
+//CREATE REKAM MEDIS
+###
+POST http://localhost:5003/rekam-medis
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "date": "2024-05-26",
+    "diagnosis": "kepala pusing",
+    "therapy": "kurangi melihat cahaya",
+    "service": [{"name":"cabut gigi","price":"300000"},{"name":"Tambal Gigi","price":"500000"},{"name":"Pasang Behel","price":"400000"}],
+    "description": "istirahat yang cukup",
+    "odontogram": [
+        {
+          "oke": "masuk",
+          "sip": "ya"
+        },
+        {
+          "oke": "masuk",
+          "sip": "ya"
+        }
+      ],
+    "patient_id": "274ff275-0988-4713-a9a6-608215929b16"
+}
+
+//GET ALL REKAM MEDIS
+###
+GET http://localhost:5003/rekam-medis?page=&search=&sorting=&startDate=2024-02-19&endDate=2024-05-30
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
+//GET DETAIL REKAM MEDIS
 ###
-PUT http://localhost:5003/patient/d0854d8a-e586-4877-abd2-45e46e1116b6
+GET http://localhost:5003/rekam-medis/0435846a-cbf1-4bc8-8c86-95c7dab2c19e
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//Koreksi Rekam Medis
+###
+PUT http://localhost:5003/rekam-medis-koreksi/0435846a-cbf1-4bc8-8c86-95c7dab2c19e
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "nik": "1234567891236997",
-    "fullname": "Bagus 1",
-    "place_birth": "Banyumas",
-    "date_birth": "2024-03-12",
-    "gender": "Oke Gas",
-    "address": "Oke Gas",
-    "work": "Oke Gas",
-    "phone": "01234568921",
-    "username": "pasien2",
-    "phone": "08123456783",
-    "email": "pasien2@gmail.com"
+    "koreksi": "string"
 }
 
+//GET Invoice
 ###
-POST http://localhost:5003/reservation
+GET http://localhost:5003/invoice?page=&search=&sorting=&invoiceId=&startDate=2024-05-15&endDate=2024-05-26
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-{
-    "date": "2025-03-11",
-    "diagnosis": "klinik gigi",
-    "service": [{
-        "name": "periksa gigi",
-        "price": "50000"
-    },{
-        "name": "tambal gigi",
-        "price": "10000"
-    }],
-    "user_id": ""
-}
-
-//LIST ALL RESERVATION ==> ONLY ADMIN 
+//Dashboard
 ###
-GET http://localhost:5003/reservation
+GET http://localhost:5003/dashboard
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-//Detail Reservation by Patient
-###
-GET http://localhost:5003/reservation/2783ef0a-2ae2-4199-b20b-b989d518e4a1
-Authorization: Bearer {{token}}
-Content-Type: application/json
 
-###
-POST http://localhost:5003/service
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-   "code": "CBTG1", 
-   "name": "Cabut Gigi", 
-   "price": "100000"
-}
- 
-###
-GET http://localhost:5003/service
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-###
-GET http://localhost:5003/transaction
-Authorization: Bearer {{token}}
-Content-Type: application/json

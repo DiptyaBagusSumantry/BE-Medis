@@ -1,5 +1,6 @@
 const Models = require("../models/index.js");
 const Patient = Models.Patient;
+const moment = require("moment");
 const {
   handleCreate,
   handlerError,
@@ -25,6 +26,16 @@ class PatientController {
         work,
         phone,
         history_illness,
+        nik,
+        namaIbuKandung,
+        agama,
+        alamatKTP,
+        kecamatan,
+        kelurahan,
+        kota,
+        kodePos,
+        rt,
+        rw,
       } = req.body;
 
       //number_regristation
@@ -52,6 +63,16 @@ class PatientController {
         work,
         phone,
         history_illness,
+        nik,
+        namaIbuKandung,
+        agama,
+        alamatKTP,
+        kecamatan,
+        kelurahan,
+        kota,
+        kodePos,
+        rt,
+        rw,
       });
       handleCreate(res);
     } catch (error) {
@@ -83,6 +104,16 @@ class PatientController {
             work,
             phone,
             history_illness,
+            nik,
+            namaIbuKandung,
+            agama,
+            alamatKTP,
+            kecamatan,
+            kelurahan,
+            kota,
+            kodePos,
+            rt,
+            rw,
           } = patient.dataValues;
 
           return {
@@ -96,6 +127,16 @@ class PatientController {
             work,
             phone,
             history_illness,
+            nik,
+            namaIbuKandung,
+            agama,
+            alamatKTP,
+            kecamatan,
+            kelurahan,
+            kota,
+            kodePos,
+            rt,
+            rw,
           };
         });
 
@@ -129,6 +170,16 @@ class PatientController {
         work,
         phone,
         history_illness,
+        nik,
+        namaIbuKandung,
+        agama,
+        alamatKTP,
+        kecamatan,
+        kelurahan,
+        kota,
+        kodePos,
+        rt,
+        rw,
       } = req.body;
       const updateData = await Patient.update(
         {
@@ -140,6 +191,16 @@ class PatientController {
           work,
           phone,
           history_illness,
+          nik,
+          namaIbuKandung,
+          agama,
+          alamatKTP,
+          kecamatan,
+          kelurahan,
+          kota,
+          kodePos,
+          rt,
+          rw,
         },
         {
           where: {
@@ -148,6 +209,20 @@ class PatientController {
         }
       );
       handleUpdate(res, updateData);
+    } catch (error) {
+      handlerError(res, error);
+    }
+  }
+  static async dashboard(req, res) {
+    try {
+      await Patient.count({
+        where: sequelize.where(
+          sequelize.fn("DATE", sequelize.col("created_at")),
+          moment().format("YYYY-MM-DD")
+        ),
+      }).then((results) => {
+        handleGet(res, results);
+      });
     } catch (error) {
       handlerError(res, error);
     }

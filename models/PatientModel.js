@@ -153,6 +153,158 @@ const Patient = (sequelizeInstance) => {
           },
         },
       },
+      nik: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: {
+          args: "nik",
+          msg: "NIK Already Registered!",
+        },
+        validate: {
+          notNull: {
+            args: true,
+            msg: "NIK Can't be Null!",
+          },
+          notEmpty: {
+            args: true,
+            msg: "NIK Can't be Empty!",
+          },
+          len: {
+            args: 16,
+            msg: "NIK Must be 16 Number!",
+          },
+          isNumeric: {
+            args: true,
+            msg: "NIK Must be Number",
+          },
+        },
+      },
+      namaIbuKandung: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Nama Ibu Kandung Can't be Null!",
+          },
+          notEmpty: {
+            args: true,
+            msg: "Nama Ibu Kandung Can't be Empty!",
+          },
+        },
+      },
+      agama: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Agama Can't be Null!",
+          },
+          notEmpty: {
+            args: true,
+            msg: "Agama Can't be Empty!",
+          },
+        },
+      },
+      alamatKTP: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Alamat KTP Can't be Null!",
+          },
+          notEmpty: {
+            args: true,
+            msg: "Alamat KTP Can't be Empty!",
+          },
+        },
+      },
+      kecamatan: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Kecamatan Can't be Null!",
+          },
+          notEmpty: {
+            args: true,
+            msg: "Kecamatan Can't be Empty!",
+          },
+        },
+      },
+      kelurahan: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "kelurahan Can't be Null!",
+          },
+          notEmpty: {
+            args: true,
+            msg: "kelurahan Can't be Empty!",
+          },
+        },
+      },
+      kota: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Kota Can't be Null!",
+          },
+          notEmpty: {
+            args: true,
+            msg: "Kota Can't be Empty!",
+          },
+        },
+      },
+      kodePos: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Kode Pos Can't be Null!",
+          },
+          notEmpty: {
+            args: true,
+            msg: "Kode Pos Can't be Empty!",
+          },
+        },
+      },
+      rt: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "RT Can't be Null!",
+          },
+          notEmpty: {
+            args: true,
+            msg: "RT Can't be Empty!",
+          },
+        },
+      },
+      rw: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "RW Can't be Null!",
+          },
+          notEmpty: {
+            args: true,
+            msg: "RW Can't be Empty!",
+          },
+        },
+      },
     },
     {
       freezeTableName: true,
