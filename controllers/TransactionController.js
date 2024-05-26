@@ -39,7 +39,7 @@ class TransactionController {
         whereClause.where = searchWhere(
           search,
           "number_regristation",
-          "fullname"
+          "nik"
         );
       }
 
@@ -61,6 +61,7 @@ class TransactionController {
           data.dataValues;
           const {
             number_regristation: noRm,
+            nik,
             fullname,
             address,
             alamatKTP,
@@ -88,6 +89,7 @@ class TransactionController {
           service,
           fullname,
           noRm,
+          nik,
           address,
           alamatKTP,
           kecamatan,

@@ -125,7 +125,7 @@ Content-Type: application/json
 
 //GET Invoice
 ###
-GET http://localhost:5003/invoice?page=&search=bagus&sorting=&invoiceId=&startDate=2024-05-26&endDate=2024-05-26&patientId=
+GET http://localhost:5003/invoice?page=&search=1234567890123471&sorting=&invoiceId=&startDate=2024-05-26&endDate=2024-05-26&patientId=
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
