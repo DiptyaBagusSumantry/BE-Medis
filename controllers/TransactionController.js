@@ -36,7 +36,11 @@ class TransactionController {
 
       //searching
       if (search) {
-        whereClause.where = searchWhere(search, "invoice", "fullname");
+        whereClause.where = searchWhere(
+          search,
+          "number_regristation",
+          "fullname"
+        );
       }
 
       //patientId

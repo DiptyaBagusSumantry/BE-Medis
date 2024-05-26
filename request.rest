@@ -56,7 +56,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-     "fullname": "bagus",
+    "fullname": "bagus",
     "place_birth": "bagus",
     "date_birth": "2023-02-13",
     "gender": "L",
@@ -103,7 +103,7 @@ Authorization: Bearer {{token}}
 
 //GET ALL REKAM MEDIS
 ###
-GET http://localhost:5003/rekam-medis?page=&search=&sorting=&startDate=2024-02-19&endDate=2024-05-30
+GET http://localhost:5003/rekam-medis?page=&search=1234567890123471&sorting=&startDate=2024-02-19&endDate=2024-05-30
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
@@ -125,7 +125,7 @@ Content-Type: application/json
 
 //GET Invoice
 ###
-GET http://localhost:5003/invoice?page=&search=&sorting=&invoiceId=&startDate=2024-05-26&endDate=2024-05-26&patientId=d3574dc7-6f3d-4851-ac92-72ab120d2f29
+GET http://localhost:5003/invoice?page=&search=bagus&sorting=&invoiceId=&startDate=2024-05-26&endDate=2024-05-26&patientId=
 Authorization: Bearer {{token}}
 Content-Type: application/json
 

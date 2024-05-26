@@ -81,7 +81,7 @@ class RekamMedisController {
       if (search) {
         whereClause.where = {
           ...whereClause.where,
-          ...searchWhere(search, "patient.phone", "patient.nik"),
+          ...searchWhere(search, "patient.number_regristation", "patient.nik"),
         };
       }
 
