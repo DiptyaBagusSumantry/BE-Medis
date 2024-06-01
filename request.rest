@@ -149,6 +149,8 @@ Authorization: Bearer {{token}}
 }
 
 //GET ALL OBAT
+// search name and code
+// sorting ASC or DESC from name
 ###
 GET http://localhost:5003/obat?page=&search=&sorting=
 Authorization: Bearer {{token}}
@@ -163,7 +165,7 @@ Authorization: Bearer {{token}}
 {
     "name": "Bodrex C",
     "price": "15000",
-    "code": "BDRX X"
+    "code": "BDRX c"
 }
 
 //GET DETAIL OBAT

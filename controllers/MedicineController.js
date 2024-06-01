@@ -30,7 +30,10 @@ class MedicineController {
       const { page, search, sorting } = req.query;
       let whereClause = {};
       //sorting
-      whereClause.order = [["name", sorting ? sorting : "ASC"]];
+
+      if(sorting){
+        whereClause.order = [["name", sorting ? sorting : "ASC"]];
+      }
 
       //searching
       if (search) {
