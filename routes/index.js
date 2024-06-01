@@ -15,15 +15,15 @@ router.get("/fetch", verifyToken, AuthController.Fetch);
 
 //medicine
 router.post(
-  "/medicine",
+  "/obat",
   verifyToken,
 
   MedicineController.createMedicine
 );
-router.get("/medicine", verifyToken, MedicineController.getMedicine);
-router.get("/medicine/:id", verifyToken, MedicineController.getDetailMedicine);
-router.put("/medicine/:id", verifyToken, MedicineController.updatetMedicine);
-router.delete("/medicine/:id", verifyToken, MedicineController.deleteMedicine);
+router.get("/obat", verifyToken, MedicineController.getMedicine);
+router.get("/obat/:id", verifyToken, MedicineController.getDetailMedicine);
+router.put("/obat/:id", verifyToken, MedicineController.updatetMedicine);
+router.delete("/obat/:id", verifyToken, MedicineController.deleteMedicine);
 
 //patient
 router.post("/patient", verifyToken, PatientController.createPatient);

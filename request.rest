@@ -1,4 +1,4 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNiYTA1MjhjLWQ4MGQtNGI3Yi05YzRkLTBhMWE4YWY3MDRmNyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxNjcwMDUwOSwiZXhwIjoxNzE3MDQ2MTA5fQ.1EgkdBF3UlCZwk5sjQhYBBcpUKGTi9N1jjnCGkGhwSY
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNiYTA1MjhjLWQ4MGQtNGI3Yi05YzRkLTBhMWE4YWY3MDRmNyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxNzIyNzM1MywiZXhwIjoxNzE3NTcyOTUzfQ.EnnmDWZ1HFaRrkTz2wY-caapYpcAbd4gyRnXqnRZP5c
 
 //login
 ###
@@ -136,3 +136,38 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 
+//CREATE Obat
+###
+POST http://localhost:5003/obat
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "code": "BDRX",
+    "name": "Bodrex",
+    "price": "10000"
+}
+
+//GET ALL OBAT
+###
+GET http://localhost:5003/obat?page=&search=&sorting=
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//Update Obat
+###
+PUT http://localhost:5003/obat/6374e03d-3f06-427e-b442-3b23432a82e6
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "Bodrex C",
+    "price": "15000",
+    "code": "BDRX X"
+}
+
+//GET DETAIL OBAT
+###
+GET http://localhost:5003/obat/6374e03d-3f06-427e-b442-3b23432a82e6
+Authorization: Bearer {{token}}
+Content-Type: application/json
