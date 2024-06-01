@@ -57,36 +57,46 @@ class TransactionController {
       const getInvoice = await Transaction.findAll(whereClause);
 
       const results = getInvoice.map((data) => {
-        let { id, invoice, total_payment, status, purchased, createdAt, service } =
-          data.dataValues;
-          const {
-            number_regristation: noRm,
-            nik,
-            fullname,
-            address,
-            alamatKTP,
-            kecamatan,
-            kelurahan,
-            kota,
-            kodePos,
-            rt,
-            rw,
-          } = data.dataValues.patient;
+        let {
+          id,
+          invoice,
+          total_payment,
+          status,
+          purchased,
+          createdAt,
+          service,
+        } = data.dataValues;
+        const {
+          number_regristation: noRm,
+          nik,
+          fullname,
+          address,
+          alamatKTP,
+          kecamatan,
+          kelurahan,
+          kota,
+          kodePos,
+          rt,
+          rw,
+        } = data.dataValues.patient;
         createdAt = new Date(createdAt).toLocaleDateString("id-ID", {
           day: "2-digit",
           month: "long",
           year: "numeric",
         });
-        purchased =JSON.parse(purchased)
-        service = purchased.map((results) => results.name).join(", ");
+        purchased = JSON.parse(purchased);
+
+        const layanan = purchased.filter((item) => item.type === "service");
+        const obat = purchased.filter((item) => item.type === "obat");
+
         return {
           id,
           invoice,
           total_payment,
           status,
           createdAt,
-          purchased,
-          service,
+          layanan,
+          obat,
           fullname,
           noRm,
           nik,

@@ -23,14 +23,25 @@ class RekamMedisController {
         diagnosis,
         therapy,
         service,
+        obat,
         description,
         odontogram,
         patient_id,
       } = req.body;
 
+      const serviceWithType = service.map((item) => ({
+        ...item,
+        type: "service",
+      }));
+
+      const obatWithType = obat.map((item) => ({ ...item, type: "obat" }));
+
+      const combinedArray = serviceWithType.concat(obatWithType);
+
+
       //count total pyemnt
       let total_payment = 0;
-      service.forEach((element) => {
+      combinedArray.forEach((element) => {
         total_payment += parseInt(element.price);
       });
       if (isNaN(total_payment)) {
@@ -42,7 +53,7 @@ class RekamMedisController {
         date,
         diagnosis,
         therapy,
-        service: JSON.stringify(service),
+        service: JSON.stringify(combinedArray),
         description,
         odontogram: JSON.stringify(odontogram),
         patientId: patient_id,
@@ -50,7 +61,7 @@ class RekamMedisController {
 
       await Transaction.create({
         invoice: `${new Date().getTime()}`,
-        purchased: JSON.stringify(service),
+        purchased: JSON.stringify(combinedArray),
         total_payment: total_payment.toString(),
         patientId: patient_id,
         historyPatientId: createRM.id,
@@ -95,7 +106,7 @@ class RekamMedisController {
             odontogram,
             diagnosis,
             therapy,
-            koreksi
+            koreksi,
           } = data.dataValues;
           const {
             id: id_patient,
@@ -106,7 +117,19 @@ class RekamMedisController {
             gender,
           } = data.dataValues.patient;
           const proses = JSON.parse(service);
-          const hasil = proses.map((results) => results.name).join(", ");
+          
+          // Mengambil nama dari tipe 'service'
+          const serviceNames = proses
+            .filter((item) => item.type === "service")
+            .map((item) => item.name)
+            .join(", ");
+
+          // Mengambil nama dari tipe 'obat'
+          const obatNames = proses
+            .filter((item) => item.type === "obat")
+            .map((item) => item.name)
+            .join(", ");
+          // const hasil = proses.map((results) => results.name).join(", ");
           return {
             id,
             id_patient,
@@ -117,7 +140,8 @@ class RekamMedisController {
             fullname,
             gender,
             phone,
-            hasil,
+            layanan: serviceNames,
+            obat: obatNames,
             diagnosis,
             therapy,
             koreksi,
@@ -140,8 +164,16 @@ class RekamMedisController {
         return handleGet(res, get);
       }
 
-      const { id, diagnosis, therapy, description, date, service, odontogram, koreksi } =
-        get.dataValues;
+      const {
+        id,
+        diagnosis,
+        therapy,
+        description,
+        date,
+        service,
+        odontogram,
+        koreksi,
+      } = get.dataValues;
       const {
         number_regristation,
         fullname,
@@ -169,6 +201,12 @@ class RekamMedisController {
         month: "long",
         year: "numeric",
       });
+      const proses = JSON.parse(service);
+      // Memisahkan objek dengan tipe 'service'
+      const serviceItems = proses.filter((item) => item.type === "service");
+
+      // Memisahkan objek dengan tipe 'obat'
+      const obatItems = proses.filter((item) => item.type === "obat");
 
       const data = {
         id,
@@ -183,7 +221,7 @@ class RekamMedisController {
         work,
         history_illness,
         koreksi,
-        nik, 
+        nik,
         namaIbuKandung,
         agama,
         alamatKTP,
@@ -196,7 +234,8 @@ class RekamMedisController {
         diagnosis,
         therapy,
         description,
-        service: JSON.parse(service),
+        layanan: serviceItems,
+        obat: obatItems,
         odontogram: JSON.parse(odontogram),
       };
       handleGet(res, data);

@@ -1,5 +1,4 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNiYTA1MjhjLWQ4MGQtNGI3Yi05YzRkLTBhMWE4YWY3MDRmNyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxNzIyNzM1MywiZXhwIjoxNzE3NTcyOTUzfQ.EnnmDWZ1HFaRrkTz2wY-caapYpcAbd4gyRnXqnRZP5c
-
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzYjY0NmVhLTI2YjAtNGNiZi1hZTRmLTQzZTY2ODk3YTM5NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxNzI4Mzk2MiwiZXhwIjoxNzE3NjI5NTYyfQ.uYXeobx2aGSR7CtaaeRO4F4cRyh17r2F71rIu9GKpzI
 //login
 ###
 POST http://localhost:5003/login
@@ -45,13 +44,13 @@ Content-Type: application/json
 
 //GET PATIENT DETAIL
 ###
-GET http://localhost:5003/patient/d3574dc7-6f3d-4851-ac92-72ab120d2f29
+GET http://localhost:5003/patient/0586a16a-7fe0-4ea8-964a-a1d6c6f857bd
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 //UPDATE PATIENT
 ###
-PUT http://localhost:5003/patient/d3574dc7-6f3d-4851-ac92-72ab120d2f29
+PUT http://localhost:5003/patient/0586a16a-7fe0-4ea8-964a-a1d6c6f857bd
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -87,6 +86,7 @@ Authorization: Bearer {{token}}
     "diagnosis": "kepala pusing",
     "therapy": "kurangi melihat cahaya",
     "service": [{"name":"cabut gigi","price":"300000"},{"name":"Tambal Gigi","price":"500000"},{"name":"Pasang Behel","price":"400000"}],
+    "obat": [{"name": "bodrex", "price": "5000"}],
     "description": "istirahat yang cukup",
     "odontogram": [
         {
@@ -98,7 +98,7 @@ Authorization: Bearer {{token}}
           "sip": "ya"
         }
       ],
-    "patient_id": "274ff275-0988-4713-a9a6-608215929b16"
+    "patient_id": "0586a16a-7fe0-4ea8-964a-a1d6c6f857bd"
 }
 
 //GET ALL REKAM MEDIS
@@ -107,9 +107,15 @@ GET http://localhost:5003/rekam-medis?page=&search=1234567890123471&sorting=&sta
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
+//GET ALL REKAM MEDIS
+###
+GET http://localhost:5003/rekam-medis/patient/0586a16a-7fe0-4ea8-964a-a1d6c6f857bd
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
 //GET DETAIL REKAM MEDIS
 ###
-GET http://localhost:5003/rekam-medis/0435846a-cbf1-4bc8-8c86-95c7dab2c19e
+GET http://localhost:5003/rekam-medis/9384181b-a490-402f-b36e-7d4cc484a8f4
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
