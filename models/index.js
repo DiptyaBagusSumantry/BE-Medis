@@ -4,7 +4,8 @@ const User = require("./UserModels.js");
 const Patient = require("./PatientModel.js");
 const HistoryPatient = require("./HistoryPatientModel.js");
 const Transaction = require("./TransactionModel.js");
-const Medicine = require("./MedicineModel.js");
+const Layanan = require("./LayananModel.js");
+const Obat = require("./ObatModel.js");
 
 const sequelizeInstance = new Sequelize(
   dbConfig.DB,
@@ -29,7 +30,8 @@ db.User = User(sequelizeInstance);
 db.Patient = Patient(sequelizeInstance);
 db.HistoryPatient = HistoryPatient(sequelizeInstance);
 db.Transaction = Transaction(sequelizeInstance);
-db.Medicine = Medicine(sequelizeInstance);
+db.Layanan = Layanan(sequelizeInstance);
+db.Obat = Obat(sequelizeInstance);
 
 // History Patient - Patient
 db.Patient.hasMany(db.HistoryPatient, {

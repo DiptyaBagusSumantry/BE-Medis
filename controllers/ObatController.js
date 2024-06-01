@@ -1,5 +1,5 @@
 const Models = require("../models/index.js");
-const Medicine = Models.Medicine;
+const Obat = Models.Obat;
 const {
   handlerError,
   handleCreate,
@@ -11,11 +11,11 @@ const {
 const { paginator } = require("../helper/Pagination.js");
 const { searchWhere } = require("../helper/Search.js");
 
-class MedicineController {
-  static async createMedicine(req, res) {
+class ObatController {
+  static async createObat(req, res) {
     try {
       const { code, name, price } = req.body;
-      await Medicine.create({
+      await Obat.create({
         code,
         name,
         price,
@@ -25,13 +25,13 @@ class MedicineController {
       handlerError(res, error);
     }
   }
-  static async getMedicine(req, res) {
+  static async getObat(req, res) {
     try {
       const { page, search, sorting } = req.query;
       let whereClause = {};
       //sorting
 
-      if(sorting){
+      if (sorting) {
         whereClause.order = [["name", sorting ? sorting : "ASC"]];
       }
 
@@ -40,15 +40,15 @@ class MedicineController {
         whereClause.where = searchWhere(search, "name", "code");
       }
 
-      const results = await Medicine.findAll(whereClause);
+      const results = await Obat.findAll(whereClause);
       handleGetPaginator(res, paginator(results, page ? page : 1, 20));
     } catch (error) {
       handlerError(res, error);
     }
   }
-  static async getDetailMedicine(req, res) {
+  static async getDetailObat(req, res) {
     try {
-      const get = await Medicine.findOne({
+      const get = await Obat.findOne({
         where: {
           id: req.params.id,
         },
@@ -58,10 +58,10 @@ class MedicineController {
       handlerError(res, error);
     }
   }
-  static async updatetMedicine(req, res) {
+  static async updatetObat(req, res) {
     try {
       const { code, name, price } = req.body;
-      const update = await Medicine.update(
+      const update = await Obat.update(
         {
           code,
           name,
@@ -76,9 +76,9 @@ class MedicineController {
       handlerError(res, error);
     }
   }
-  static async deleteMedicine(req, res) {
+  static async deleteObat(req, res) {
     try {
-      const get = await Medicine.destroy({
+      const get = await Obat.destroy({
         where: { id: req.params.id },
       });
       handleDelete(res, get);
@@ -88,4 +88,4 @@ class MedicineController {
   }
 }
 
-module.exports = MedicineController;
+module.exports = ObatController;

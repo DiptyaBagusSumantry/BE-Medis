@@ -135,6 +135,50 @@ GET http://localhost:5003/dashboard
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
+//LAYANAN
+//CREATE layanan
+###
+POST http://localhost:5003/layanan
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "Gigi Bolong",
+    "price": "10000",
+    "code": "tmblong"
+}
+
+//GET ALL layanan
+// search name and code
+// sorting ASC or DESC from name
+###
+GET http://localhost:5003/layanan?page=&search=&sorting=
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//Update layanan
+###
+PUT http://localhost:5003/layanan/b243312d-b733-4bd3-9015-2507344ea3ee
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "Cabut Gigi",
+    "price": "15000",
+    "code": "Cbt"
+}
+
+//GET DETAIL layanan
+###
+GET http://localhost:5003/layanan/b243312d-b733-4bd3-9015-2507344ea3ee
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//Delete  layanan
+###
+DELETE  http://localhost:5003/layanan/b243312d-b733-4bd3-9015-2507344ea3ee
+Authorization: Bearer {{token}}
+Content-Type: application/json
 
 //CREATE Obat
 ###
@@ -158,18 +202,24 @@ Content-Type: application/json
 
 //Update Obat
 ###
-PUT http://localhost:5003/obat/6374e03d-3f06-427e-b442-3b23432a82e6
+PUT http://localhost:5003/obat/d32972e3-de73-4843-9a37-b51a9c375e95
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
     "name": "Bodrex C",
     "price": "15000",
-    "code": "BDRX c"
+    "code": "BDRX z"
 }
 
 //GET DETAIL OBAT
 ###
-GET http://localhost:5003/obat/6374e03d-3f06-427e-b442-3b23432a82e6
+GET http://localhost:5003/obat/d32972e3-de73-4843-9a37-b51a9c375e95
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//DELETE OBAT
+###
+DELETE  http://localhost:5003/obat/5734ee71-9bb9-4d82-90ac-cd5858d8810a
 Authorization: Bearer {{token}}
 Content-Type: application/json

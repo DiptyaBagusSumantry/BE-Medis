@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
 
-const Medicine = (sequelizeInstance) => {
+const Layanan = (sequelizeInstance) => {
   return sequelizeInstance.define(
-    "Medicine",
+    "Layanan",
     {
       id: {
         type: Sequelize.UUID,
@@ -17,11 +17,11 @@ const Medicine = (sequelizeInstance) => {
         validate: {
           notNull: {
             args: true,
-            msg: "Name Payment Can't be Null!",
+            msg: "Name Can't be Null!",
           },
           notEmpty: {
             args: true,
-            msg: "Name Payment Can't be Empty!",
+            msg: "Name Can't be Empty!",
           },
         },
       },
@@ -66,4 +66,4 @@ const Medicine = (sequelizeInstance) => {
   );
 };
 
-module.exports = Medicine;
+module.exports = Layanan;
