@@ -146,6 +146,7 @@ class PatientController {
       handlerError(res, error);
     }
   }
+  
   static async detailPatient(req, res) {
     try {
       await Patient.findOne({
@@ -215,14 +216,15 @@ class PatientController {
   }
   static async dashboard(req, res) {
     try {
-      await Patient.count({
+      const patientToday = await Patient.count({
         where: sequelize.where(
           sequelize.fn("DATE", sequelize.col("created_at")),
           moment().format("YYYY-MM-DD")
         ),
-      }).then((results) => {
-        handleGet(res, results);
       });
+      const totalPatient = await Patient.count();
+      const totalRM = await Models.HistoryPatient.count();
+      handleGet(res, { patientToday, totalPatient, totalRM });
     } catch (error) {
       handlerError(res, error);
     }

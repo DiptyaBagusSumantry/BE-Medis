@@ -62,6 +62,8 @@ router.delete(
   RekamMedisController.deleteRekamMedis
 );
 
+router.get("/list-kunjungan", verifyToken, RekamMedisController.listPatientDashbaord);
+
 //Invoice
 router.get("/invoice", verifyToken, TransactionController.getInvoice);
 router.put("/invoice/:id", verifyToken, TransactionController.updateInvoice);

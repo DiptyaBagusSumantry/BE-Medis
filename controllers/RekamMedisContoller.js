@@ -38,7 +38,6 @@ class RekamMedisController {
 
       const combinedArray = serviceWithType.concat(obatWithType);
 
-
       //count total pyemnt
       let total_payment = 0;
       combinedArray.forEach((element) => {
@@ -48,7 +47,7 @@ class RekamMedisController {
         const err = { message: "price must be integer" };
         return handlerError(res, err);
       }
-      
+
       const createRM = await RekamMedis.create({
         date,
         diagnosis,
@@ -118,7 +117,7 @@ class RekamMedisController {
             gender,
           } = data.dataValues.patient;
           const proses = JSON.parse(service);
-          
+
           // Mengambil nama dari tipe 'service'
           const serviceNames = proses
             .filter((item) => item.type === "service")
@@ -150,6 +149,34 @@ class RekamMedisController {
           };
         });
         handleGetPaginator(res, paginator(results, page ? page : 1, 20));
+      });
+    } catch (error) {
+      handlerError(res, error);
+    }
+  }
+  static async listPatientDashbaord(req, res) {
+    try {
+      await RekamMedis.findAll({
+        attributes: ["id", "date"],
+        order: [["createdAt", "DESC"]],
+        include: {
+          model: Models.Patient,
+          attributes: ["id", "fullname", "number_regristation"],
+        },
+        group: "patient_id",
+      }).then((results) => {
+        const data = results.map(hasil=>{
+          const { id: idRM, date } = hasil;
+          const { id: idPatient, fullname, number_regristation: noRM } = hasil.dataValues.patient;
+          return{
+            idRM,
+            idPatient,
+            date,
+            fullname,
+            noRM
+          }
+        })
+        handleGet(res, data);
       });
     } catch (error) {
       handlerError(res, error);
@@ -273,7 +300,7 @@ class RekamMedisController {
         } = reuslt.dataValues;
         const {
           number_regristation,
-          nik
+          nik,
           // fullname,
           // place_birth,
           // date_birth,
@@ -311,15 +338,18 @@ class RekamMedisController {
   }
   static async updateKoreksi(req, res) {
     try {
-      await RekamMedis.update({
-        koreksi: req.body.koreksi
-      },{
-        where:{
-          id: req.params.id
+      await RekamMedis.update(
+        {
+          koreksi: req.body.koreksi,
+        },
+        {
+          where: {
+            id: req.params.id,
+          },
         }
-      }).then(results=>{
-        handleUpdate(res, results)
-      })
+      ).then((results) => {
+        handleUpdate(res, results);
+      });
     } catch (error) {
       handlerError(res, error);
     }

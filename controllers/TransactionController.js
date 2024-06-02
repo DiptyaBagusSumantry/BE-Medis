@@ -132,6 +132,16 @@ class TransactionController {
         return handlerError(res, { message: "Invoice tidak ditemukan!" });
       }
       let { sisa_pembayaran, total_payment } = getInvoice;
+
+      let hasil;
+      const data = parseInt(sisa_pembayaran) - bayar;
+      hasil = data.toString();
+
+      if (bayar > parseInt(sisa_pembayaran)) {
+        return handlerError(res, {
+          message: "Nominal Bayar Lebih Besar Dari Total Payment!",
+        });
+      }
       if (sisa_pembayaran == "" || sisa_pembayaran == 0) {
         await Transaction.update(
           { status: true },
@@ -144,16 +154,6 @@ class TransactionController {
         return handlerError(res, { message: "tidak ada tagihan" });
       }
 
-      let hasil;
-      const data = parseInt(sisa_pembayaran) - bayar;
-      hasil = data.toString();
-
-      if (bayar > parseInt(sisa_pembayaran)) {
-        return handlerError(res, {
-          message: "Nominal Bayar Lebih Besar Dari Total Payment!",
-        });
-      }
-
       const update = await Transaction.update(
         { sisa_pembayaran: hasil },
         {
@@ -162,6 +162,21 @@ class TransactionController {
           },
         }
       );
+
+      await Transaction.findOne({
+        where: { id: req.params.id },
+      }).then(async (hasil) => {
+        if (hasil.sisa_pembayaran == "0") {
+          await Transaction.update(
+            { status: true },
+            {
+              where: {
+                id: req.params.id,
+              },
+            }
+          );
+        }
+      });
       handleUpdate(res, update);
     } catch (error) {
       handlerError(res, error);

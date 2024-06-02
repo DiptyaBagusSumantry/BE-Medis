@@ -99,8 +99,9 @@ Authorization: Bearer {{token}}
           "sip": "ya"
         }
       ],
-    "patient_id": "0586a16a-7fe0-4ea8-964a-a1d6c6f857bd"
+    "patient_id": "d454de95-5c87-4eed-9f7b-c0bb03927523"
 }
+
 
 //GET ALL REKAM MEDIS
 ###
@@ -132,18 +133,18 @@ Content-Type: application/json
 
 //GET Invoice
 ###
-GET http://localhost:5003/invoice?page=&search=1234567890123471&sorting=&invoiceId=&startDate=2024-05-26&endDate=2024-05-26&patientId=
+GET http://localhost:5003/invoice?page=&search=&sorting=&invoiceId=&startDate=&endDate=&patientId=
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 //UPDATE Invoice
 ###
-PUT  http://localhost:5003/invoice/13e816a3-b8dd-4b9e-85a3-e79b7b2fef1f
+PUT  http://localhost:5003/invoice/c489d23b-e7cf-4566-a258-81832077bf3a
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "bayar": 1204950
+    "bayar": 1200000
 }
 
 //Dashboard
@@ -238,5 +239,11 @@ Content-Type: application/json
 //DELETE OBAT
 ###
 DELETE  http://localhost:5003/obat/5734ee71-9bb9-4d82-90ac-cd5858d8810a
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//List kunjungan patient to dashbaord
+###
+GET http://localhost:5003/list-kunjungan
 Authorization: Bearer {{token}}
 Content-Type: application/json
