@@ -48,7 +48,7 @@ class RekamMedisController {
         const err = { message: "price must be integer" };
         return handlerError(res, err);
       }
-
+      
       const createRM = await RekamMedis.create({
         date,
         diagnosis,
@@ -63,6 +63,7 @@ class RekamMedisController {
         invoice: `${new Date().getTime()}`,
         purchased: JSON.stringify(combinedArray),
         total_payment: total_payment.toString(),
+        sisa_pembayaran: total_payment.toString(),
         patientId: patient_id,
         historyPatientId: createRM.id,
         date: moment().format("YYYY-MM-DD"),

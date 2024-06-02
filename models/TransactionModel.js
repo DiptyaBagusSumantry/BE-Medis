@@ -25,6 +25,21 @@ const Transaction = (sequelizeInstance) => {
           },
         },
       },
+      sisa_pembayaran: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        default: "0",
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Sisa Pembayaran Can't be Null!",
+          },
+          notEmpty: {
+            args: true,
+            msg: "Sisa Pembayaran Can't be Empty!",
+          },
+        },
+      },
       invoice: {
         type: Sequelize.STRING,
         allowNull: false,

@@ -17,8 +17,15 @@ const { filter } = require("../helper/FIlter.js");
 class TransactionController {
   static async getInvoice(req, res) {
     try {
-      const { page, search, sorting, invoiceId, startDate, endDate, patientId } =
-        req.query;
+      const {
+        page,
+        search,
+        sorting,
+        invoiceId,
+        startDate,
+        endDate,
+        patientId,
+      } = req.query;
       // const invoiceId = req.query.invoiceId;
       const whereClause = {
         include: { model: Patient },
@@ -36,16 +43,12 @@ class TransactionController {
 
       //searching
       if (search) {
-        whereClause.where = searchWhere(
-          search,
-          "number_regristation",
-          "nik"
-        );
+        whereClause.where = searchWhere(search, "number_regristation", "nik");
       }
 
       //patientId
-      if(patientId){
-        whereClause.include.where = {id: patientId}
+      if (patientId) {
+        whereClause.include.where = { id: patientId };
       }
       // console.log(whereClause)
       // return res.send(whereClause)
@@ -61,6 +64,7 @@ class TransactionController {
           id,
           invoice,
           total_payment,
+          sisa_pembayaran,
           status,
           purchased,
           createdAt,
@@ -93,6 +97,7 @@ class TransactionController {
           id,
           invoice,
           total_payment,
+          sisa_pembayaran,
           status,
           createdAt,
           layanan,
@@ -117,8 +122,40 @@ class TransactionController {
   }
   static async updateInvoice(req, res) {
     try {
+      const { bayar } = req.body;
+      const getInvoice = await Transaction.findOne({
+        where: {
+          id: req.params.id,
+        },
+      });
+      if (!getInvoice) {
+        return handlerError(res, { message: "Invoice tidak ditemukan!" });
+      }
+      let { sisa_pembayaran, total_payment } = getInvoice;
+      if (sisa_pembayaran == "" || sisa_pembayaran == 0) {
+        await Transaction.update(
+          { status: true },
+          {
+            where: {
+              id: req.params.id,
+            },
+          }
+        );
+        return handlerError(res, { message: "tidak ada tagihan" });
+      }
+
+      let hasil;
+      const data = parseInt(sisa_pembayaran) - bayar;
+      hasil = data.toString();
+
+      if (bayar > parseInt(sisa_pembayaran)) {
+        return handlerError(res, {
+          message: "Nominal Bayar Lebih Besar Dari Total Payment!",
+        });
+      }
+
       const update = await Transaction.update(
-        { status: req.body.status },
+        { sisa_pembayaran: hasil },
         {
           where: {
             id: req.params.id,
