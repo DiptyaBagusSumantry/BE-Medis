@@ -273,6 +273,7 @@ class RekamMedisController {
         } = reuslt.dataValues;
         const {
           number_regristation,
+          nik
           // fullname,
           // place_birth,
           // date_birth,
@@ -285,6 +286,7 @@ class RekamMedisController {
         return {
           id,
           number_regristation,
+          nik,
           // fullname,
           // place_birth,
           // date_birth,
