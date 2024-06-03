@@ -155,29 +155,29 @@ const Patient = (sequelizeInstance) => {
       },
       nik: {
         type: Sequelize.STRING,
-        allowNull: false,
+        // allowNull: false,
         unique: {
           args: "nik",
           msg: "NIK Already Registered!",
         },
-        validate: {
-          notNull: {
-            args: true,
-            msg: "NIK Can't be Null!",
-          },
-          notEmpty: {
-            args: true,
-            msg: "NIK Can't be Empty!",
-          },
-          len: {
-            args: 16,
-            msg: "NIK Must be 16 Number!",
-          },
-          isNumeric: {
-            args: true,
-            msg: "NIK Must be Number",
-          },
-        },
+        // validate: {
+        //   notNull: {
+        //     args: true,
+        //     msg: "NIK Can't be Null!",
+        //   },
+        //   notEmpty: {
+        //     args: true,
+        //     msg: "NIK Can't be Empty!",
+        //   },
+        //   len: {
+        //     args: 16,
+        //     msg: "NIK Must be 16 Number!",
+        //   },
+        //   isNumeric: {
+        //     args: true,
+        //     msg: "NIK Must be Number",
+        //   },
+        // },
       },
       namaIbuKandung: {
         type: Sequelize.STRING,

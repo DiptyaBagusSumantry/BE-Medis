@@ -50,15 +50,14 @@ class TransactionController {
       if (patientId) {
         whereClause.include.where = { id: patientId };
       }
-      // console.log(whereClause)
-      // return res.send(whereClause)
+      
       //detail invoice
       if (invoiceId) {
         whereClause.where = { id: invoiceId };
       }
 
       const getInvoice = await Transaction.findAll(whereClause);
-
+      let cumulativePendapatan = 0;
       const results = getInvoice.map((data) => {
         let {
           id,
@@ -93,11 +92,21 @@ class TransactionController {
         const layanan = purchased.filter((item) => item.type === "service");
         const obat = purchased.filter((item) => item.type === "obat");
 
+        
+        let totalPayment = Number(total_payment);
+
+        // Tambahkan total_payment ke cumulativePendapatan
+        cumulativePendapatan += totalPayment;
+
+        // Perbarui pendapatan pada objek saat ini
+        const pendapatan = cumulativePendapatan.toString();
+        
         return {
           id,
           invoice,
           total_payment,
           sisa_pembayaran,
+          pendapatan,
           status,
           createdAt,
           layanan,
@@ -115,7 +124,15 @@ class TransactionController {
           rw,
         };
       });
-      handleGetPaginator(res, paginator(results, page ? page : 1, 20));
+      // handleGetPaginator(res, paginator(results, page ? page : 1, 20));
+       res.status(200).json({
+         code: 200,
+         message: "Success Get Data",
+         totalPendapatan: cumulativePendapatan,
+         data: paginator(results, page ? page : 1, 20).data,
+         totalPages: page ? page : 1,
+         currentPages: 20,
+       });
     } catch (error) {
       handlerError(res, error);
     }
