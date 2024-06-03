@@ -12,7 +12,7 @@ const {
 const { paginator } = require("../helper/Pagination.js");
 const { searchWhere } = require("../helper/Search.js");
 const { Op, Sequelize } = require("sequelize");
-const { filter } = require("../helper/FIlter.js");
+const { filter } = require("../helper/Filter.js");
 
 class TransactionController {
   static async getInvoice(req, res) {
@@ -50,7 +50,7 @@ class TransactionController {
       if (patientId) {
         whereClause.include.where = { id: patientId };
       }
-      
+
       //detail invoice
       if (invoiceId) {
         whereClause.where = { id: invoiceId };
@@ -92,7 +92,6 @@ class TransactionController {
         const layanan = purchased.filter((item) => item.type === "service");
         const obat = purchased.filter((item) => item.type === "obat");
 
-        
         let totalPayment = Number(total_payment);
 
         // Tambahkan total_payment ke cumulativePendapatan
@@ -100,7 +99,7 @@ class TransactionController {
 
         // Perbarui pendapatan pada objek saat ini
         const pendapatan = cumulativePendapatan.toString();
-        
+
         return {
           id,
           invoice,
@@ -125,14 +124,14 @@ class TransactionController {
         };
       });
       // handleGetPaginator(res, paginator(results, page ? page : 1, 20));
-       res.status(200).json({
-         code: 200,
-         message: "Success Get Data",
-         totalPendapatan: cumulativePendapatan,
-         data: paginator(results, page ? page : 1, 20).data,
-         totalPages: page ? page : 1,
-         currentPages: 20,
-       });
+      res.status(200).json({
+        code: 200,
+        message: "Success Get Data",
+        totalPendapatan: cumulativePendapatan,
+        data: paginator(results, page ? page : 1, 20).data,
+        totalPages: page ? page : 1,
+        currentPages: 20,
+      });
     } catch (error) {
       handlerError(res, error);
     }

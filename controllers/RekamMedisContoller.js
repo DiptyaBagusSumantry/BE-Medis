@@ -13,7 +13,7 @@ const {
 } = require("../helper/HandlerError.js");
 const { paginator } = require("../helper/Pagination.js");
 const { searchWhere } = require("../helper/Search.js");
-const { filter } = require("../helper/FIlter.js");
+const { filter } = require("../helper/Filter.js");
 
 class RekamMedisController {
   static async createRekamMedis(req, res) {
