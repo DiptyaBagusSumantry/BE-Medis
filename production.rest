@@ -1,0 +1,249 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImViOWQyM2ViLTNiY2QtNDFhMy1hMmJjLTNlYTIxY2YxZGY5YyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxODI4NTQwNCwiZXhwIjoxNzE4NjMxMDA0fQ.cIBiAZBEhtYNkUa8DwIa2Z3JeaDSLUIuXfCn2RZZUnI
+//login
+###
+POST https://apiklinik.soemantry.com/login
+Content-Type: application/json
+
+{
+    "username" : "admin",
+    "password" : "Admin1234!"
+}
+
+//create patient
+###
+POST https://apiklinik.soemantry.com/patient
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "fullname": "Bagus",
+    "place_birth": "Banyumas",
+    "date_birth": "2024-05-26",
+    "gender": "L",
+    "address": "sokaraja",
+    "work": "programer",
+    "phone": "08123456789",
+    "history_illness": "not-found",
+    "nik": "1234567890123456", 
+    "namaIbuKandung": "Sumantry",
+    "agama": "Islam",
+    "alamatKTP": "sokaraja",
+    "kecamatan": "sokaraja",
+    "kelurahan": "sokaraja",
+    "kota": "Banyumas",
+    "kodePos": "53181",
+    "rt": "3",
+    "rw": "1"
+}
+
+//GET PATIENT
+###
+GET https://apiklinik.soemantry.com/patient?search=
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//GET PATIENT DETAIL
+###
+GET https://apiklinik.soemantry.com/patient/e829966a-e5a0-42c5-8c18-57ccf8744242
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//UPDATE PATIENT
+###
+PUT https://apiklinik.soemantry.com/patient/e829966a-e5a0-42c5-8c18-57ccf8744242
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "fullname": "bagus",
+    "place_birth": "bagus ss",
+    "date_birth": "2023-02-13",
+    "gender": "L",
+    "address": "Banyumas",
+    "work": "student",
+    "phone": "01236470789",
+    "history_illness": "not-found",
+    "nik": "1234567890123471", 
+    "namaIbuKandung": "Sumantry",
+    "agama": "Islam",
+    "alamatKTP": "sokaraja",
+    "kecamatan": "sokaraja",
+    "kelurahan": "sokaraja",
+    "kota": "Banyumas",
+    "kodePos": "53181",
+    "rt": "3",
+    "rw": "1"
+}
+
+//CREATE REKAM MEDIS
+###
+POST https://apiklinik.soemantry.com/rekam-medis
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "date": "2024-05-26",
+    "diagnosis": "kepala pusing",
+    "therapy": "kurangi melihat cahaya",
+    "service": [{"name":"cabut gigi","price":"300000"},{"name":"Tambal Gigi","price":"500000"},{"name":"Pasang Behel","price":"400000"}],
+    "obat": [{"name": "bodrex", "price": "5000"}],
+    "bayar": 1205000,
+    "description": "istirahat yang cukup",
+    "odontogram": [
+        {
+          "oke": "masuk",
+          "sip": "ya"
+        },
+        {
+          "oke": "masuk",
+          "sip": "ya"
+        }
+      ],
+    "patient_id": "d454de95-5c87-4eed-9f7b-c0bb03927523"
+}
+
+
+//GET ALL REKAM MEDIS
+###
+GET https://apiklinik.soemantry.com/rekam-medis?page=&search=&sorting=&startDate=&endDate=
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//GET ALL REKAM MEDIS
+###
+GET https://apiklinik.soemantry.com/rekam-medis/patient/e829966a-e5a0-42c5-8c18-57ccf8744242
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//GET DETAIL REKAM MEDIS
+###
+GET https://apiklinik.soemantry.com/rekam-medis/9384181b-a490-402f-b36e-7d4cc484a8f4
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//Koreksi Rekam Medis
+###
+PUT https://apiklinik.soemantry.com/rekam-medis-koreksi/0435846a-cbf1-4bc8-8c86-95c7dab2c19e
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "koreksi": "string"
+}
+
+//GET Invoice
+###
+GET https://apiklinik.soemantry.com/invoice?page=&search=&sorting=&invoiceId=&startDate=&endDate=&patientId=
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//UPDATE Invoice
+###
+PUT  https://apiklinik.soemantry.com/invoice/c489d23b-e7cf-4566-a258-81832077bf3a
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "bayar": 1200000
+}
+
+//Dashboard
+###
+GET https://apiklinik.soemantry.com/dashboard
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//LAYANAN
+//CREATE layanan
+###
+POST https://apiklinik.soemantry.com/layanan
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "Gigi Bolong",
+    "price": "10000",
+    "code": "tmblong"
+}
+
+//GET ALL layanan
+// search name and code
+// sorting ASC or DESC from name
+###
+GET https://apiklinik.soemantry.com/layanan?page=&search=&sorting=
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//Update layanan
+###
+PUT https://apiklinik.soemantry.com/layanan/b243312d-b733-4bd3-9015-2507344ea3ee
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "Cabut Gigi",
+    "price": "15000",
+    "code": "Cbt"
+}
+
+//GET DETAIL layanan
+###
+GET https://apiklinik.soemantry.com/layanan/b243312d-b733-4bd3-9015-2507344ea3ee
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//Delete  layanan
+###
+DELETE  https://apiklinik.soemantry.com/layanan/b243312d-b733-4bd3-9015-2507344ea3ee
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//CREATE Obat
+###
+POST https://apiklinik.soemantry.com/obat
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "code": "BDRX",
+    "name": "Bodrex",
+    "price": "10000"
+}
+
+//GET ALL OBAT
+// search name and code
+// sorting ASC or DESC from name
+###
+GET https://apiklinik.soemantry.com/obat?page=&search=&sorting=
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//Update Obat
+###
+PUT https://apiklinik.soemantry.com/obat/d32972e3-de73-4843-9a37-b51a9c375e95
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "Bodrex C",
+    "price": "15000",
+    "code": "BDRX z"
+}
+
+//GET DETAIL OBAT
+###
+GET https://apiklinik.soemantry.com/obat/d32972e3-de73-4843-9a37-b51a9c375e95
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//DELETE OBAT
+###
+DELETE  https://apiklinik.soemantry.com/obat/5734ee71-9bb9-4d82-90ac-cd5858d8810a
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+//List kunjungan patient to dashbaord
+###
+GET https://apiklinik.soemantry.com/list-kunjungan
+Authorization: Bearer {{token}}
+Content-Type: application/json

@@ -68,7 +68,7 @@ const historyPatient = (sequelizeInstance) => {
         },
       },
       service: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT("long"),
         allowNull: false,
         validate: {
           notNull: {
@@ -97,7 +97,7 @@ const historyPatient = (sequelizeInstance) => {
       },
       koreksi: {
         type: Sequelize.STRING,
-        default: " "
+        default: " ",
       },
     },
     {
