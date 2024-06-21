@@ -123,14 +123,11 @@ class TransactionController {
           rw,
         };
       });
-      // handleGetPaginator(res, paginator(results, page ? page : 1, 20));
       res.status(200).json({
         code: 200,
         message: "Success Get Data",
         totalPendapatan: cumulativePendapatan,
-        data: paginator(results, page ? page : 1, 20).data,
-        totalPages: page ? page : 1,
-        currentPages: 20,
+        data: handleGetPaginator(res, paginator(results, page ? page : 1, 20)),
       });
     } catch (error) {
       handlerError(res, error);
