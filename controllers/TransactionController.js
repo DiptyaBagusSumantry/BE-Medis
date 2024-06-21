@@ -8,6 +8,7 @@ const {
   handlerError,
   handleUpdate,
   handleGetPaginator,
+  handleGet,
 } = require("../helper/HandlerError.js");
 const { paginator } = require("../helper/Pagination.js");
 const { searchWhere } = require("../helper/Search.js");
@@ -123,11 +124,14 @@ class TransactionController {
           rw,
         };
       });
+      const data = paginator(results, page ? page : 1, 20)
       res.status(200).json({
         code: 200,
         message: "Success Get Data",
         totalPendapatan: cumulativePendapatan,
-        data: handleGetPaginator(res, paginator(results, page ? page : 1, 20)),
+        data: data.data,
+        totalPages: data.totalPages,
+        currentPages: data.currentPages,
       });
     } catch (error) {
       handlerError(res, error);
