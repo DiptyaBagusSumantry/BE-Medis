@@ -101,7 +101,12 @@ Authorization: Bearer {{token}}
           "sip": "ya"
         }
       ],
-    "patient_id": "d454de95-5c87-4eed-9f7b-c0bb03927523"
+    "patient_id": "d454de95-5c87-4eed-9f7b-c0bb03927523",
+    "odontogram_gambar",
+    "namaKeluarga": "",
+    "jenisKelaminKeluarga": "",
+    "alamatKeluarga": "",
+    "telpKeluarga": "",
 }
 
 
