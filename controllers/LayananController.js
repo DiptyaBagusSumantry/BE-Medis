@@ -31,7 +31,7 @@ class LayananController {
       let whereClause = {};
       //sorting
 
-      if(sorting){
+      if (sorting) {
         whereClause.order = [["name", sorting ? sorting : "ASC"]];
       }
 
@@ -84,6 +84,60 @@ class LayananController {
       handleDelete(res, get);
     } catch (error) {
       handlerError(res, error);
+    }
+  }
+  static async getWilayah(req, res) {
+    const { kodeProvinsi, kodeKota, kodeKecamatan } = req.query;
+
+    try {
+      if (kodeProvinsi && kodeKota && kodeKecamatan) {
+        // Jika ada kodeProvinsi, kodeKota, dan kodeKecamatan, cari desa berdasarkan kodeKecamatan
+        const desa = await Models.Desa.findAll({
+          where: { kodeKecamatan: kodeKecamatan },
+        });
+        return res.send(desa);
+      }
+
+      if (kodeProvinsi && kodeKota) {
+        // Jika ada kodeProvinsi dan kodeKota, cari kecamatan berdasarkan kodeKota
+        const kecamatan = await Models.Kecamatan.findAll({
+          where: { kodeKota: kodeKota },
+        });
+        return res.send(kecamatan);
+      }
+
+      if (kodeProvinsi) {
+        // Jika hanya ada kodeProvinsi, cari kota berdasarkan kodeProvinsi
+        const kota = await Models.Kota.findAll({
+          where: { kodeProvinsi: kodeProvinsi },
+        });
+        return res.send(kota);
+      }
+
+      if (kodeKota) {
+        // Jika hanya ada kodeKota, cari kecamatan berdasarkan kodeKota
+        const kecamatan = await Models.Kecamatan.findAll({
+          where: { kodeKota: kodeKota },
+        });
+        return res.send(kecamatan);
+      }
+
+      if (kodeKecamatan) {
+        // Jika hanya ada kodeKecamatan, cari desa berdasarkan kodeKecamatan
+        const desa = await Models.Desa.findAll({
+          where: { kodeKecamatan: kodeKecamatan },
+        });
+        return res.send(desa);
+      }
+
+      if (!kodeProvinsi && !kodeKota && !kodeKecamatan) {
+        // Jika tidak ada parameter, tampilkan semua provinsi
+        const provinsi = await Models.Provinsi.findAll();
+        return res.send(provinsi);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return res.status(500).send({ error: "Internal Server Error" });
     }
   }
 }

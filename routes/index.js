@@ -8,6 +8,7 @@ const TransactionController = require("../controllers/TransactionController.js")
 const { IsAdmin } = require("../middlewares/chekRole.js");
 const ObatController = require("../controllers/ObatController.js");
 const LayananController = require("../controllers/LayananController.js");
+const { Layanan } = require("../models/index.js");
 
 router.post("/login", AuthController.Login);
 router.post("/register", AuthController.register);
@@ -63,6 +64,7 @@ router.delete(
 );
 
 router.get("/list-kunjungan", verifyToken, RekamMedisController.listPatientDashbaord);
+router.get("/wilayah", verifyToken, LayananController.getWilayah);
 
 //Invoice
 router.get("/invoice", verifyToken, TransactionController.getInvoice);

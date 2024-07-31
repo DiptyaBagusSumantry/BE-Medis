@@ -145,6 +145,12 @@ GET http://localhost:5003/invoice?page=&search=&sorting=&invoiceId=&startDate=&e
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
+//GET Wilayah
+###
+GET http://localhost:5003/wilayah?kodeProvinsi=33&kodeKota=33.02&kodeKecamatan=33.02.26
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
 //UPDATE Invoice
 ###
 PUT  http://localhost:5003/invoice/c489d23b-e7cf-4566-a258-81832077bf3a
