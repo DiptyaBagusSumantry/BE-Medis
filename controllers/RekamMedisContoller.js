@@ -32,6 +32,7 @@ class RekamMedisController {
         jenisKelaminKeluarga,
         alamatKeluarga,
         telpKeluarga,
+        statusInformContent,
       } = req.body;
 
       const serviceWithType = service.map((item) => ({
@@ -66,6 +67,7 @@ class RekamMedisController {
         jenisKelaminKeluarga,
         alamatKeluarga,
         telpKeluarga,
+        statusInformContent,
       });
 
       await Transaction.create({
@@ -122,6 +124,7 @@ class RekamMedisController {
             jenisKelaminKeluarga,
             alamatKeluarga,
             telpKeluarga,
+            statusInformContent,
           } = data.dataValues;
           const {
             id: id_patient,
@@ -153,6 +156,7 @@ class RekamMedisController {
             description,
             date,
             fullname,
+            statusInformContent,
             gender,
             phone,
             layanan: serviceNames,
@@ -226,6 +230,7 @@ class RekamMedisController {
         jenisKelaminKeluarga,
         alamatKeluarga,
         telpKeluarga,
+        statusInformContent,
       } = get.dataValues;
       const {
         number_regristation,
@@ -268,6 +273,7 @@ class RekamMedisController {
         fullname,
         place_birth,
         date_birth,
+        statusInformContent,
         gender,
         phone,
         address,

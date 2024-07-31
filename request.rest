@@ -107,6 +107,7 @@ Authorization: Bearer {{token}}
     "jenisKelaminKeluarga": "",
     "alamatKeluarga": "",
     "telpKeluarga": "",
+    "statusInformContent": false
 }
 
 

@@ -107,6 +107,10 @@ const historyPatient = (sequelizeInstance) => {
         type: Sequelize.STRING,
         default: " ",
       },
+      statusInformContent: {
+        type: Sequelize.STRING,
+        default: null,
+      },
     },
     {
       freezeTableName: true,
