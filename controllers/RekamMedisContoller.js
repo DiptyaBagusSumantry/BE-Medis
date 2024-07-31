@@ -27,6 +27,11 @@ class RekamMedisController {
         description,
         odontogram,
         patient_id,
+        odontogram_gambar,
+        namaKeluarga,
+        jenisKelaminKeluarga,
+        alamatKeluarga,
+        telpKeluarga,
       } = req.body;
 
       const serviceWithType = service.map((item) => ({
@@ -56,6 +61,11 @@ class RekamMedisController {
         description,
         odontogram: JSON.stringify(odontogram),
         patientId: patient_id,
+        odontogram_gambar: JSON.stringify(odontogram_gambar),
+        namaKeluarga,
+        jenisKelaminKeluarga,
+        alamatKeluarga,
+        telpKeluarga,
       });
 
       await Transaction.create({
@@ -107,6 +117,11 @@ class RekamMedisController {
             diagnosis,
             therapy,
             koreksi,
+            odontogram_gambar,
+            namaKeluarga,
+            jenisKelaminKeluarga,
+            alamatKeluarga,
+            telpKeluarga,
           } = data.dataValues;
           const {
             id: id_patient,
@@ -146,6 +161,11 @@ class RekamMedisController {
             therapy,
             koreksi,
             odontogram: JSON.parse(odontogram),
+            odontogram_gambar: JSON.parse(odontogram_gambar),
+            namaKeluarga,
+            jenisKelaminKeluarga,
+            alamatKeluarga,
+            telpKeluarga,
           };
         });
         handleGetPaginator(res, paginator(results, page ? page : 1, 20));
@@ -201,6 +221,11 @@ class RekamMedisController {
         service,
         odontogram,
         koreksi,
+        odontogram_gambar,
+        namaKeluarga,
+        jenisKelaminKeluarga,
+        alamatKeluarga,
+        telpKeluarga,
       } = get.dataValues;
       const {
         number_regristation,
@@ -265,6 +290,11 @@ class RekamMedisController {
         layanan: serviceItems,
         obat: obatItems,
         odontogram: JSON.parse(odontogram),
+        odontogram_gambar: JSON.parse(odontogram_gambar),
+        namaKeluarga,
+        jenisKelaminKeluarga,
+        alamatKeluarga,
+        telpKeluarga,
       };
       handleGet(res, data);
     } catch (error) {
@@ -301,30 +331,12 @@ class RekamMedisController {
         const {
           number_regristation,
           nik,
-          // fullname,
-          // place_birth,
-          // date_birth,
-          // gender,
-          // phone,
-          // address,
-          // work,
-          // history_illness,
         } = get[0].dataValues;
         return {
           id,
           number_regristation,
           nik,
-          // fullname,
-          // place_birth,
-          // date_birth,
-          // gender,
-          // phone,
-          // address,
-          // work,
-          // history_illness,
           date,
-          // diagnosis,
-          // therapy,
           description,
           service: JSON.parse(service),
           odontogram: JSON.parse(odontogram),

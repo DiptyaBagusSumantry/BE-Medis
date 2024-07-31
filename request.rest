@@ -1,4 +1,6 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzYjY0NmVhLTI2YjAtNGNiZi1hZTRmLTQzZTY2ODk3YTM5NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxNzI4Mzk2MiwiZXhwIjoxNzE3NjI5NTYyfQ.uYXeobx2aGSR7CtaaeRO4F4cRyh17r2F71rIu9GKpzI
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzYjY0NmVhLTI2YjAtNGNiZi1hZTRmLTQzZTY2ODk3YTM5NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyMjQzMzkzOSwiZXhwIjoxNzIyNzc5NTM5fQ.XarcrmaoWeRjmMSefr6jd64jMSIXiZGptMVNcA3Mktg
+
+
 //login
 ###
 POST http://localhost:5003/login
@@ -105,7 +107,7 @@ Authorization: Bearer {{token}}
 
 //GET ALL REKAM MEDIS
 ###
-GET http://localhost:5003/rekam-medis?page=&search=1234567890123471&sorting=&startDate=2024-02-19&endDate=2024-05-30
+GET http://localhost:5003/rekam-medis?page=&search=&sorting=&startDate=&endDate=
 Authorization: Bearer {{token}}
 Content-Type: application/json
 

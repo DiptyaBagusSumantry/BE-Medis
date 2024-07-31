@@ -83,19 +83,27 @@ const historyPatient = (sequelizeInstance) => {
       },
       odontogram: {
         type: Sequelize.TEXT("long"),
-        // allowNull: false,
-        // validate: {
-        //   notNull: {
-        //     args: true,
-        //     msg: "Odontogram Can't be Null!",
-        //   },
-        //   notEmpty: {
-        //     args: true,
-        //     msg: "Odontogram Can't be Empty!",
-        //   },
-        // },
+      },
+      odontogram_gambar: {
+        type: Sequelize.TEXT("long"),
       },
       koreksi: {
+        type: Sequelize.STRING,
+        default: " ",
+      },
+      namaKeluarga: {
+        type: Sequelize.STRING,
+        default: " ",
+      },
+      jenisKelaminKeluarga: {
+        type: Sequelize.STRING,
+        default: " ",
+      },
+      alamatKeluarga: {
+        type: Sequelize.STRING,
+        default: " ",
+      },
+      telpKeluarga: {
         type: Sequelize.STRING,
         default: " ",
       },
