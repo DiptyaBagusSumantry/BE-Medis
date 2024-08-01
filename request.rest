@@ -32,6 +32,7 @@ Authorization: Bearer {{token}}
     "alamatKTP": "sokaraja",
     "kecamatan": "sokaraja",
     "kelurahan": "sokaraja",
+    "provinsi,": "sokaraja",
     "kota": "Banyumas",
     "kodePos": "53181",
     "rt": "3",

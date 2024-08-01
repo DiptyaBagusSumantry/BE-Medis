@@ -263,6 +263,20 @@ const Patient = (sequelizeInstance) => {
           },
         },
       },
+      provinsi: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Provinsi Can't be Null!",
+          },
+          notEmpty: {
+            args: true,
+            msg: "Provinsi Can't be Empty!",
+          },
+        },
+      },
       kodePos: {
         type: Sequelize.STRING,
         allowNull: false,
