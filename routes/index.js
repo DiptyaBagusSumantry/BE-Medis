@@ -8,7 +8,9 @@ const TransactionController = require("../controllers/TransactionController.js")
 const { IsAdmin } = require("../middlewares/chekRole.js");
 const ObatController = require("../controllers/ObatController.js");
 const LayananController = require("../controllers/LayananController.js");
-const { Layanan } = require("../models/index.js");
+const WaController = require("../controllers/SendWa.js");
+const upload = require("../middlewares/Multer.js");
+
 
 router.post("/login", AuthController.Login);
 router.post("/register", AuthController.register);
@@ -71,5 +73,7 @@ router.get("/invoice", verifyToken, TransactionController.getInvoice);
 router.put("/invoice/:id", verifyToken, TransactionController.updateInvoice);
 
 router.get("/dashboard", verifyToken, PatientController.dashboard);
+
+router.post("/send-wa", verifyToken, upload.single('pdf'),WaController.sendWa);
 
 module.exports = router;

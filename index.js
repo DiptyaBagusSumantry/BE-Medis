@@ -51,6 +51,7 @@ app.use(
     methods: ["GET", "PUT", "POST", "DELETE"],
   })
 );
+app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 app.use(router);
 
