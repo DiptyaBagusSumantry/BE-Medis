@@ -19,7 +19,7 @@ class WaController {
         req.file.filename
       }`;
       res.json({
-        fileUrl: `https://api.whatsapp.com/send?phone=${req.query.phone}&text=${fileUrl}`,
+        fileUrl: `https://wa.me/${req.query.phone}?text=${fileUrl}`,
       });
     } else {
       res.status(400).json({ error: "No file uploaded" });
