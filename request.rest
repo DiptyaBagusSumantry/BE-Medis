@@ -1,4 +1,4 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzYjY0NmVhLTI2YjAtNGNiZi1hZTRmLTQzZTY2ODk3YTM5NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyMjQzMzkzOSwiZXhwIjoxNzIyNzc5NTM5fQ.XarcrmaoWeRjmMSefr6jd64jMSIXiZGptMVNcA3Mktg
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzYjY0NmVhLTI2YjAtNGNiZi1hZTRmLTQzZTY2ODk3YTM5NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyMjc4ODg5NiwiZXhwIjoxNzIzMTM0NDk2fQ.CzSI7OWlVj2zdmPmOyzJizQQh2YJIhCuaSCYyZX4Wrc
 
 
 //login
@@ -10,6 +10,54 @@ Content-Type: application/json
     "username" : "admin",
     "password" : "Admin1234!"
 }
+
+//Create-User Managmenet
+###
+POST http://localhost:5003/user-management
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "username": "asep", 
+    "password": "Asep1234!", 
+    "role": "petugas", 
+    "fullname": "Asep Saeudin", 
+    "phone": "081234567832", 
+    "email": "asep@gmail.com"
+}
+
+//Get-User Managmenet
+###
+GET http://localhost:5003/user-management
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+//Get-User Managmenet by ID
+###
+GET http://localhost:5003/user-management/f0b13426-9a32-4f96-b89d-ccd086fee7c6
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+//Update-User Managmenet
+###
+PUT http://localhost:5003/user-management/f0b13426-9a32-4f96-b89d-ccd086fee7c6
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "username": "asep saefudin", 
+    "password": "Asep1234!ok", 
+    "role": "kasir", 
+    "fullname": "Asep Saeudin OKe mantap", 
+    "phone": "081234567831", 
+    "email": "asepjos@gmail.com"
+}
+
+//Delete-User Managmenet
+###
+DELETE  http://localhost:5003/user-management/f0b13426-9a32-4f96-b89d-ccd086fee7c6
+Content-Type: application/json
+Authorization: Bearer {{token}}
 
 //create patient
 ###

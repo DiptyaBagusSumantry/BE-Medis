@@ -1,7 +1,13 @@
 const Models = require("../models/index.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { handlerError, handleCreate } = require("../helper/HandlerError.js");
+const {
+  handlerError,
+  handleCreate,
+  handleGet,
+  handleUpdate,
+  handleDelete,
+} = require("../helper/HandlerError.js");
 
 const User = Models.User;
 
@@ -83,13 +89,79 @@ class AuthController {
         fullname,
         phone,
         email,
-      })
-      handleCreate(res)
+      });
+      handleCreate(res);
+    } catch (error) {
+      handlerError(res, error);
+    }
+  }
+  static async getUser(req, res) {
+    try {
+      await Models.User.findAll().then((data) => {
+        return handleGet(res, data);
+      });
+    } catch (error) {
+      handlerError(res, error);
+    }
+  }
+  static async getUserById(req, res) {
+    try {
+      await Models.User.findOne({
+        where: {
+          id: req.params.id,
+        },
+      }).then((data) => {
+        return handleGet(res, data);
+      });
+    } catch (error) {
+      handlerError(res, error);
+    }
+  }
+  static async updateUser(req, res) {
+    try {
+      const { fullname, username, password, phone, email, role } = req.body;
+      await Models.User.update(
+        {
+          fullname,
+          username,
+          password,
+          phone,
+          email,
+          role,
+        },
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
+      ).then((result) => {
+        handleUpdate(res, result);
+      });
     } catch (error) {
       handlerError(res, error);
     }
   }
 
+  static async deleteUser(req, res) {
+    try {
+      await User.findOne({
+        where: {role: "admin"}
+      }).then((result) => {
+        if (req.params.id == result.id) {
+          return handlerError(res, { message: "Please chek Role!" });
+        }
+      });
+      await User.destroy({
+        where: {
+          id: req.params.id,
+        },
+      }).then((result) => {
+        handleDelete(res, result);
+      });
+    } catch (error) {
+      handlerError(res, error);
+    }
+  }
   static async Logout(req, res) {
     try {
       const authHeader = req.headers["authorization"];

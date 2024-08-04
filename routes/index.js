@@ -13,9 +13,29 @@ const upload = require("../middlewares/Multer.js");
 
 
 router.post("/login", AuthController.Login);
-router.post("/register", AuthController.register);
 router.post("/logout", verifyToken, AuthController.Logout);
 router.get("/fetch", verifyToken, AuthController.Fetch);
+
+router.post("/user-management", verifyToken, IsAdmin, AuthController.register);
+router.get("/user-management", verifyToken, IsAdmin, AuthController.getUser);
+router.get(
+  "/user-management/:id",
+  verifyToken,
+  IsAdmin,
+  AuthController.getUserById
+);
+router.put(
+  "/user-management/:id",
+  verifyToken,
+  IsAdmin,
+  AuthController.updateUser
+);
+router.delete(
+  "/user-management/:id",
+  verifyToken,
+  IsAdmin,
+  AuthController.deleteUser
+);
 
 //Layanan
 router.post(
