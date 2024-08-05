@@ -31,9 +31,9 @@ class LayananController {
       let whereClause = {};
       //sorting
 
-      if (sorting) {
-        whereClause.order = [["name", sorting ? sorting : "ASC"]];
-      }
+      // if (sorting) {
+        whereClause.order = [["code", sorting ? sorting : "ASC"]];
+      // }
 
       //searching
       if (search) {

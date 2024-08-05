@@ -16,24 +16,21 @@ router.post("/login", AuthController.Login);
 router.post("/logout", verifyToken, AuthController.Logout);
 router.get("/fetch", verifyToken, AuthController.Fetch);
 
-router.post("/user-management", verifyToken, IsAdmin, AuthController.register);
-router.get("/user-management", verifyToken, IsAdmin, AuthController.getUser);
+router.post("/user-management", verifyToken, AuthController.register);
+router.get("/user-management", verifyToken, AuthController.getUser);
 router.get(
   "/user-management/:id",
   verifyToken,
-  IsAdmin,
   AuthController.getUserById
 );
 router.put(
   "/user-management/:id",
   verifyToken,
-  IsAdmin,
   AuthController.updateUser
 );
 router.delete(
   "/user-management/:id",
   verifyToken,
-  IsAdmin,
   AuthController.deleteUser
 );
 
