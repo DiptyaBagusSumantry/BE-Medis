@@ -27,7 +27,7 @@ class LayananController {
   }
   static async getLayanan(req, res) {
     try {
-      const { page, search, sorting } = req.query;
+      const { page, limit, search, sorting } = req.query;
       let whereClause = {};
       //sorting
 
@@ -41,7 +41,7 @@ class LayananController {
       }
 
       const results = await Layanan.findAll(whereClause);
-      handleGetPaginator(res, paginator(results, page ? page : 1, 20));
+      handleGetPaginator(res, paginator(results, page ? page : 1, limit ? limit : 20));
     } catch (error) {
       handlerError(res, error);
     }
